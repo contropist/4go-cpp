@@ -11,6 +11,12 @@ private:
     row_type row;
     col_type col;
 
+public:
+    bool is_camp();
+    bool is_base();
+    bool on_rail();
+    bool valid();
+
 };
 
 //
@@ -20,6 +26,11 @@ private:
     rank_type rank;
     country_type belong_to;
     state_type state;
+
+public:
+    bool is_labor();
+    bool is_flag();
+    bool movable();
 
 };
 

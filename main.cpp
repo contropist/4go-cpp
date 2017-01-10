@@ -1,5 +1,6 @@
 #include "main.h"
 #include "object.h"
+#include "utils.h"
 
 #include <QApplication>
 #include <QPainter>

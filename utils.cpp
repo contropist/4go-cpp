@@ -24,7 +24,7 @@ country_type right_country(country_type country)
        case right: return up;    break;
        case up:    return left;  break;
        case left:  return down;  break;
-       default:    return null;  break;
+       default:    return null;  break; // error
     }
 }
 
@@ -54,7 +54,7 @@ QString rank_code(rank_type rank)
        case 10:  return "军旗"; break;
        case 100: return "地雷"; break;
        case 0:   return "炸弹"; break;
-       default:  return ""; break;
+       default:  return "";    break;
     };
 }
 
