@@ -54,7 +54,7 @@ QString rank_code(rank_type rank)
        case 10:  return "军旗"; break;
        case 100: return "地雷"; break;
        case 0:   return "炸弹"; break;
-       default:  return "";    break;
+       default:  return "null";break; // error
     };
 }
 

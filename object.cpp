@@ -5,6 +5,14 @@
 #include "utils.h"
 
 //
+// position
+//
+position::position(country_type c, row_type r, col_type cl)
+{
+    country = c;
+    row = r;
+    col = cl;
+}
 
 bool position::is_camp()
 {
@@ -42,6 +50,8 @@ bool position::valid()
 }
 
 //
+// chess
+//
 bool chess::is_labor()
 {
     return (rank == 30);
@@ -58,5 +68,26 @@ bool chess::movable()
             ( (rank == 10) || (rank == 100) )
            );
 }
+
+//
+// board
+//
+board::board()
+{
+    occupied_list = NULL;
+}
+
+void board::occupy(chess c)
+{
+    //
+    return;
+}
+
+void board::delete_position(position p)
+{
+    //
+    return;
+}
+
 
 #endif // OBJECT_CPP

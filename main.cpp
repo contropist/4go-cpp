@@ -27,7 +27,7 @@ void MyMainWindow::paintEvent(QPaintEvent *)
     paint->setPen(QPen(Qt::blue, 4, Qt::DashLine));
     paint->setBrush(QBrush(Qt::red, Qt::SolidPattern));
 
-    paint->drawRect(20, 20, 160, 160);
+    paint->drawRect(100, 100, 150, 150);
 
     paint->end();
 }
