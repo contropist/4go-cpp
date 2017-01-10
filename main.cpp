@@ -1,3 +1,6 @@
+#include "main.h"
+#include "object.h"
+
 #include <QApplication>
 #include <QPainter>
 #include <QWidget>
@@ -23,12 +26,15 @@ void MyMainWindow::paintEvent(QPaintEvent *)
     paint->setBrush(QBrush(Qt::red, Qt::SolidPattern));
 
     paint->drawRect(20, 20, 160, 160);
+
     paint->end();
 }
 
 MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 {
-    setGeometry(100, 100, 200, 200);
+    setGeometry(40, 40, frame_size, frame_size);
+    setWindowTitle("米勒酷四国军棋");
+
 }
 
 MyMainWindow::~MyMainWindow()
