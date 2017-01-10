@@ -24,17 +24,24 @@ country_type right_country(country_type country)
        case right: return up;    break;
        case up:    return left;  break;
        case left:  return down;  break;
-       default:    return null;  break; // error
+       default: // error
+          throw("Wrong country in calling right_country");
+
     }
 }
 
 country_type left_country(country_type country)
 {
-    return right_country(
-           right_country(
-           right_country(
-                          country
-                        )));
+    switch (country)
+    {
+       case down:  return left;  break;
+       case right: return down;  break;
+       case up:    return right; break;
+       case left:  return up;    break;
+       default: // error
+          throw("Wrong country in calling left_country");
+
+    }
 }
 
 //
@@ -54,7 +61,7 @@ QString rank_code(rank_type rank)
        case 10:  return "军旗"; break;
        case 100: return "地雷"; break;
        case 0:   return "炸弹"; break;
-       default:  return "null";break; // error
+       default:  throw("Wrong rank number"); // error
     };
 }
 
