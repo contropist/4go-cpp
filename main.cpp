@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QWidget>
 
+//
 class MyMainWindow: public QWidget
 {
 
@@ -33,6 +34,8 @@ void MyMainWindow::paintEvent(QPaintEvent *)
 MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 {
     setGeometry(40, 40, frame_size, frame_size);
+    // setWindowTitle("米勒酷四国军棋");
+
     setWindowTitle("米勒酷四国军棋");
 
 }
