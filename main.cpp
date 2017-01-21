@@ -1,6 +1,7 @@
 #include "main.h"
 #include "object.h"
 #include "utils.h"
+#include "draw-board.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -38,6 +39,8 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
     // setWindowTitle("米勒酷四国军棋");
 
     setWindowTitle("米勒酷四国军棋");
+
+    draw_chess_board();
 
 }
 

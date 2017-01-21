@@ -30,6 +30,23 @@ country_type right_country(country_type country)
     }
 }
 
+//
+country_type operator ++ (country_type & country, int) // country ++
+{
+    country_type temp_country = country;
+    country = right_country(country);
+
+    return temp_country;
+}
+
+//
+country_type operator ++ (country_type & country) // ++ country
+{
+    country = right_country(country);
+    return country;
+}
+
+//
 country_type left_country(country_type country)
 {
     switch (country)
@@ -42,6 +59,28 @@ country_type left_country(country_type country)
           throw("Wrong country in calling left_country");
 
     }
+}
+
+//
+country_type operator -- (country_type & country, int) // country --
+{
+    country_type temp_country = country;
+    country = left_country(country);
+
+    return temp_country;
+}
+
+//
+country_type operator -- (country_type & country) // -- country
+{
+    country = left_country(country);
+    return country;
+}
+
+// ally
+country_type ally(country_type country)
+{
+    return right_country(right_country(country));
 }
 
 //

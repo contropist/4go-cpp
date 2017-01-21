@@ -6,11 +6,11 @@
 //
 // new types
 //
-typedef enum {
-    up,
-    left,
+typedef enum { // order is relevant!
     down,
     right,
+    up,
+    left,
     middle,
     null // error
 } country_type;
@@ -34,6 +34,13 @@ int col_num(country_type);
 
 country_type right_country(country_type);
 country_type left_country(country_type);
+country_type ally(country_type);
+
+country_type operator ++ (country_type &, int); // country ++;
+country_type operator -- (country_type &, int); // country --;
+
+country_type operator ++ (country_type &); // ++ country;
+country_type operator -- (country_type &); // -- country;
 
 QString rank_code(rank_type);
 
