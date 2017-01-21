@@ -11,7 +11,7 @@ void draw_middle();
 //
 void draw_board()
 {
-    for (country_type country = down; country < down; country ++)
+    for (country_type country = down; country != down; ++ country)
         for (int row = 0; row < row_num(country); row ++)
              for (int col = 0; col < col_num(country); col ++)
 
