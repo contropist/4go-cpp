@@ -1,7 +1,7 @@
 #ifndef DRAW_BOARD_CPP
 #define DRAW_BOARD_CPP
 
-#include "main.h"
+#include "parameter.h"
 #include "utils.h"
 
 void draw_empty_chess(country_type, int, int);

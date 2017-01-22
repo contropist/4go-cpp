@@ -1,24 +1,12 @@
 #include "main.h"
+#include "parameter.h"
 #include "object.h"
 #include "utils.h"
 #include "draw-board.h"
 
 #include <QApplication>
 #include <QPainter>
-#include <QWidget>
 
-//
-class MyMainWindow: public QWidget
-{
-
-public:
-    MyMainWindow(QWidget *parent = 0);
-    ~MyMainWindow();
-
-private:
-    void paintEvent(QPaintEvent *);
-    QPainter *paint;
-};
 
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
