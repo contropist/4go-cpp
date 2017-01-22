@@ -6,7 +6,8 @@
 //
 // new types
 //
-typedef enum { // order is relevant!
+
+typedef enum {
     down,
     right,
     up,
