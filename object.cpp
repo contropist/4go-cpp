@@ -7,21 +7,21 @@
 //
 // position
 //
-position::position(country_type c, row_type r, col_type cl)
+position::position(country_type co, row_type r, col_type cl)
 {
-    if (country != null)
-        country = c;
+    if (co != null)
+        country = co;
     else
         throw("Wrong country name");
 
 
-    if ( (row >= 0) && (row < row_num(country)) )
+    if ( (r >= 0) && (r < row_num(co)) )
        row = r;
     else
        throw("Wrong row number"); // error
 
 
-    if ( (col >= 0) && (col < col_num(country)) )
+    if ( (cl >= 0) && (cl < col_num(co)) )
        col = cl;
     else
        throw("Wrong col number"); // error

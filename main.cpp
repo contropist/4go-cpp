@@ -6,19 +6,30 @@
 
 #include <QApplication>
 #include <QPainter>
+#include <QRectF>
 
 
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
+
     paint = new QPainter;
 
     paint->begin(this);
-    paint->setPen(QPen(Qt::blue, 4, Qt::DashLine));
-    paint->setBrush(QBrush(Qt::red, Qt::SolidPattern));
+//    paint->setPen(QPen(Qt::blue, 4, Qt::DashLine));
+//    paint->setBrush(QBrush(Qt::red, Qt::SolidPattern));
 
-    paint->drawRect(100, 100, 150, 150);
+//    paint->drawRect(100, 100, 150, 150);
+
+//    paint->drawText(QRectF(QPointF(150, 150), QSizeF(30, 30)),
+//                    Qt::AlignCenter, "军长");
+
+    draw_chess_board(paint);
 
     paint->end();
+
+
+
+
 }
 
 MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
@@ -28,7 +39,6 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     setWindowTitle("米勒酷四国军棋");
 
-    draw_chess_board();
 
 }
 

@@ -1,8 +1,10 @@
 #ifndef DRAWBOARD_H
 #define DRAWBOARD_H
 
+#include <QPainter>
+
 //
-void draw_chess_board();
+void draw_chess_board(QPainter *);
 //
 
 
