@@ -15,7 +15,18 @@ void draw_chess(QPainter * paint,
     structxy ab = get_size_xy(country);
     float iota = 0.1; // small offset
 
-    return;
+    QColor color;
+
+    switch (c.belong_to)
+    {
+        case down: color = Qt::red; break;
+        case right: color = Qt::yellow; break;
+        case up: color = Qt::blue; break;
+        case left: color = Qt::green; break;
+        default: color = Qt::gray;
+    }
+
+
 }
 
 #endif // UTILS_CPP

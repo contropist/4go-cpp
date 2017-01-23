@@ -25,7 +25,7 @@ int position::encode()
     if (c_code <= 3)
         return c_code * 30 + row * 5 + col;
     else
-        return c_code * 30 + row * 3 + col;
+        return MAXPOS0 + row * 3 + col;
 
 }
 

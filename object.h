@@ -8,6 +8,7 @@
 #include <QPainter>
 //
 
+// macros
 #define MAXPOS  129 // 4*row_num*col_num + 3*3
 #define MAXPOS0 120 // 4*row_num*col_num, without middle
 
