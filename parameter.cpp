@@ -4,6 +4,7 @@
 //
 #include "parameter.h"
 #include "def.h"
+#include "object.h"
 //
 
 //
@@ -99,14 +100,20 @@ structxy coordinatexy(country_type country,
 }
 
 //
-structxy get_top_left_corner(country_type country, int row, int col)
+structxy coordinatexy(position p, float offset_x, float offset_y)
 {
-    switch (country)
+    return coordinatexy(p.country, p.row, p.col, offset_x, offset_y);
+}
+
+//
+structxy get_top_left_corner(position p)
+{
+    switch (p.country)
     {
-       case down:  return coordinatexy(country, row, col, 0.0, 0.0); break;
-       case right: return coordinatexy(country, row, col, 1.0, 0.0); break;
-       case up:    return coordinatexy(country, row, col, 1.0, 1.0); break;
-       case left:  return coordinatexy(country, row, col, 0.0, 1.0); break;
+       case down:  return coordinatexy(p, 0.0, 0.0); break;
+       case right: return coordinatexy(p, 1.0, 0.0); break;
+       case up:    return coordinatexy(p, 1.0, 1.0); break;
+       case left:  return coordinatexy(p, 0.0, 1.0); break;
        default: // error
           throw("Wrong country in calling right_country");
     }

@@ -4,7 +4,7 @@
 #include <QPainter>
 
 //
-void draw_chess_board(QPainter *);
+void draw_board(QPainter *);
 //
 
 

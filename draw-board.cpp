@@ -6,33 +6,35 @@
 #include "object.h"
 
 #define corner 22 // corner size for draw rounded rectangle
-//
-#include <QPainter>
+
 //
 
-void draw_empty_chess(country_type, int, int, QPainter *);
-void draw_board(QPainter *);
+void draw_empty_chess(QPainter *, int);
+void draw_main_board(QPainter *);
 void draw_middle(QPainter *);
 
 //
-void draw_board(QPainter * paint)
+void draw_main_board(QPainter * paint)
 {
-    country_type country;
-    int counter;
 
-    for (country = down, counter = 0; counter < 4; country ++, counter ++)
-        for (int row = 0; row < row_num(country); row ++)
-             for (int col = 0; col < col_num(country); col ++)
-
-                 draw_empty_chess(country, row, col, paint);
+    loop0(i) // exclude middle
+    {
+        draw_empty_chess(paint, i);
+    }
 
 }
 
-void draw_empty_chess(country_type country, row_type row, col_type col, QPainter * paint)
+void draw_empty_chess( QPainter * paint, int i)
 {
 
-    structxy xy = get_top_left_corner(country, row, col);
-    structxy ab = get_size_xy(country);
+    position p(i);
+    country_type country = p.country;
+    row_type row = p.row;
+    col_type col = p.col;
+
+    structxy xy = get_top_left_corner(p);
+    structxy ab = get_size_xy(country);   
+
     structxy xy2 = coordinatexy(country, row, col, 1.0, 1.0/2);
     structxy xyn = coordinatexy(country, row, col+1, 0.0, 1.0/2);
     structxy xy3 = coordinatexy(country, row, col, 1.0/2, 1.0);
@@ -57,10 +59,12 @@ void draw_empty_chess(country_type country, row_type row, col_type col, QPainter
             for (int j = -1; j <= 1; j += 2)
                 if ((row != 2) || (col != 2))
                 {
-                    if ((row + i == 2) && (col + j == 2))
-                        xynew = coordinatexy(country, row + i, col + j, 0.5-0.4*j, 0.5-0.4*i);
-                    else
-                        xynew = coordinatexy(country, row + i, col + j, 0.5-0.5*j, 0.5-0.5*i);
+                    xynew =
+                        ((row + i == 2) && (col + j == 2))?
+                            coordinatexy(country, row + i, col + j, 0.5-0.4*j, 0.5-0.4*i)
+                        :
+                            coordinatexy(country, row + i, col + j, 0.5-0.5*j, 0.5-0.5*i)
+                        ;
 
                     paint->drawLine(QPointF(xy0.x, xy0.y), QPointF(xynew.x, xynew.y));
                 }
@@ -140,9 +144,9 @@ void draw_middle(QPainter * paint)
 }
 
 //
-void draw_chess_board(QPainter * paint)
+void draw_board(QPainter * paint)
 {
-    draw_board(paint);
+    draw_main_board(paint);
     draw_middle(paint);
 
 }

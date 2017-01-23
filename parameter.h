@@ -4,6 +4,7 @@
 #define LSIZE 20.0 // changeable to resize
 
 #include "def.h"
+#include "object.h"
 
 constexpr float lsize = LSIZE;
 constexpr float rsize = lsize*2;
@@ -39,8 +40,8 @@ structxy operator - (structxy, structxy);
 structxy coordinatexy(country_type country,
                       int row, int col,
                       float offset_x, float offset_y);
-structxy get_top_left_corner(country_type country,
-                             int row, int col);
+structxy coordinatexy(position p, float offset_x, float offset_y);
+structxy get_top_left_corner(position p);
 structxy get_size_xy(country_type country);
 
 

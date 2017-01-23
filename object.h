@@ -5,9 +5,14 @@
 
 //
 #include <vector>
+#include <QPainter>
 //
 
-#define MAXPOS 129 // 4*row_num*col_num + 3*3
+#define MAXPOS  129 // 4*row_num*col_num + 3*3
+#define MAXPOS0 120 // 4*row_num*col_num, without middle
+
+#define loop(i)  for (int i = 0; i < MAXPOS;  i ++)
+#define loop0(i) for (int i = 0; i < MAXPOS0; i ++) // without middle country
 
 //
 class position
@@ -62,6 +67,7 @@ public:
     bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
+    void draw_all_chesses(QPainter *);
 
     pos_list find(state_type);
     pos_list find(rank_type);

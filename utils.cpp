@@ -2,13 +2,19 @@
 #define UTILS_CPP
 
 #include "utils.h"
+#include "parameter.h"
 
 //
 void draw_chess(QPainter * paint,
-                position p,
-                char * text,
                 chess_type c)
 {
+    position p(c.code);
+    country_type country = p.country;
+
+    structxy xy = get_top_left_corner(p);
+    structxy ab = get_size_xy(country);
+    float iota = 0.1; // small offset
+
     return;
 }
 

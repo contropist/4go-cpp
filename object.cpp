@@ -3,6 +3,7 @@
 
 #include "object.h"
 #include "def.h"
+#include "utils.h"
 
 //
 // position
@@ -150,8 +151,10 @@ bool chess_type::movable()
 
 board::board()
 {
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         chesses[i].set_empty(i);
+    }
 
 }
 
@@ -182,16 +185,20 @@ bool board::is_occupied(position p)
 
 void board::delete_belong_to(country_type belong_to) // according to belong_to
 {
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if (chesses[i].belong_to == belong_to)
             chesses[i].set_empty(i);
+    }
 }
 
 bool board::is_empty(country_type belong_to) // according to belong_to
 {
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if (chesses[i].belong_to == belong_to)
             return false;
+    }
 
     return true;
 }
@@ -200,9 +207,11 @@ pos_list board::find(state_type st)
 {
     pos_list l;
 
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if (chesses[i].state == st)
             l.push_back(i);
+    }
 
     return l;
 }
@@ -211,9 +220,11 @@ pos_list board::find(rank_type r)
 {
     pos_list l;
 
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if (chesses[i].rank == r)
             l.push_back(i);
+    }
 
     return l;
 }
@@ -222,9 +233,11 @@ pos_list board::find(country_type belong_to)
 {
     pos_list l;
 
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if (chesses[i].belong_to == belong_to)
             l.push_back(i);
+    }
 
     return l;
 }
@@ -233,10 +246,12 @@ pos_list board::find_allies(country_type belong_to)
 {
     pos_list l;
 
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
+    {
         if ( (chesses[i].belong_to == belong_to) ||
              (chesses[i].belong_to == ally(belong_to)) )
             l.push_back(i);
+    }
 
     return l;
 }
@@ -246,7 +261,7 @@ pos_list board::find_country(country_type country)
 {
     pos_list l;
 
-    for (int i = 0; i < MAXPOS; i ++)
+    loop(i)
     {
         position p(i);
 
@@ -255,6 +270,15 @@ pos_list board::find_country(country_type country)
     }
 
     return l;
+}
+
+void board::draw_all_chesses(QPainter * paint)
+{
+    loop(i)
+    {
+        draw_chess(paint, chesses[i]);
+    }
+
 }
 
 

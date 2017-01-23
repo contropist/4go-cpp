@@ -58,7 +58,7 @@ void draw_all_chesses(QPainter * paint)
 //
 void redraw(QPainter * paint)
 {
-    draw_chess_board(paint);
+    draw_board(paint);
     draw_all_chesses(paint);
 }
 
