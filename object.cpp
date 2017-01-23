@@ -7,6 +7,27 @@
 //
 // position
 //
+int position::encode()
+{
+    int c_code;
+
+    switch (country)
+    {
+        case down:  c_code = 0; break;
+        case right: c_code = 1; break;
+        case up:    c_code = 2; break;
+        case left:  c_code = 3; break;
+        case middle:c_code = 4; break;
+        default: throw("error in calling encode()");
+    }
+
+    if (c_code <= 3)
+        return c_code * 30 + row * 5 + col;
+    else
+        return 120 + row * 3 + col;
+
+}
+
 position::position(country_type co, row_type r, col_type cl)
 {
     if (co != null)
@@ -65,181 +86,145 @@ bool position::valid()
 //
 // chess
 //
-bool chess::is_labor()
+bool chess_type::is_labor()
 {
     return (rank == 30);
 }
 
-bool chess::is_flag()
+bool chess_type::is_flag()
 {
     return (rank == 10);
 }
 
-bool chess::movable()
+bool chess_type::movable()
 {
     return (!
             ( (rank == 10) || (rank == 100) )
            );
 }
 
+void chess_type::set_empty(int c)
+{
+    rank = NORANK;
+    belong_to = null;
+    state = empty;
+    code = c;
+}
+
+chess_type::chess_type()
+{
+    set_empty(0);
+}
+
 //
 // board
 //
+
 board::board()
 {
-    occupied_list = new chesses;
+    for (int i = 0; i < MAXPOS; i ++)
+        chesses[i].set_empty(i);
+
 }
 
 
-void board::occupy(chess c)
+void board::occupy(chess_type chess, position p)
 {
 
-    occupied_list->push_back(c);
+    int code = p.encode();
+
+    chesses[code] = chess;
 
 }
 
-
-/*
 void board::delete_position(position p)
 {
-    //
-    return;
+    int code = p.encode();
+
+    chesses[code].set_empty(code);
 }
 
 bool board::is_occupied(position p)
 {
-    //
+    int code = p.encode();
+
+    return (chesses[code].state != empty);
+
+}
+
+void board::delete_belong_to(country_type belong_to) // according to belong_to
+{
+    for (int i = 0; i < MAXPOS; i ++)
+        if (chesses[i].belong_to == belong_to)
+            chesses[i].set_empty(i);
+}
+
+bool board::is_empty(country_type belong_to) // according to belong_to
+{
+    for (int i = 0; i < MAXPOS; i ++)
+        if (chesses[i].belong_to == belong_to)
+            return false;
+
     return true;
 }
 
-void board::delete_country(country_type belong_to);
+pos_list board::find(state_type st)
 {
-    //
-    return;
+    pos_list l;
+
+    for (int i = 0; i < MAXPOS; i ++)
+        if (chesses[i].state == st)
+            l.push_back(i);
+
+    return l;
 }
 
-bool board::is_empty(country_type belong_to);
+pos_list board::find(rank_type r)
 {
-    //
-    return false;
+    pos_list l;
+
+    for (int i = 0; i < MAXPOS; i ++)
+        if (chesses[i].rank == r)
+            l.push_back(i);
+
+    return l;
 }
 
-
-chesses *board::find(state_type s)
+pos_list board::find(country_type belong_to)
 {
-   chesses *ptr = occupied_list;
-   chesses *found = NULL;
+    pos_list l;
 
-   while (ptr)
-   {
-      if (ptr->item->state == s)
-      {
-          chesses *new_found = new chesses;
+    for (int i = 0; i < MAXPOS; i ++)
+        if (chesses[i].belong_to == belong_to)
+            l.push_back(i);
 
-          new_found->item = ptr->item;
-          new_found->next = found;
-          found = new_found;
-      }
-
-      ptr = ptr->next;
-   }
-
-   return found;
+    return l;
 }
 
-chesses *board::find(rank_type r)
+pos_list board::find_allies(country_type belong_to)
 {
-   chesses *ptr = occupied_list;
-   chesses *found = NULL;
+    pos_list l;
 
-   while (ptr)
-   {
-      if (ptr->item->rank == r)
-      {
-          chesses *new_found = new chesses;
+    for (int i = 0; i < MAXPOS; i ++)
+        if ( (chesses[i].belong_to == belong_to) ||
+             (chesses[i].belong_to == ally(belong_to)) )
+            l.push_back(i);
 
-          new_found->item = ptr->item;
-          new_found->next = found;
-          found = new_found;
-      }
-
-      ptr = ptr->next;
-   }
-
-   return found;
+    return l;
 }
 
-chesses *board::find(country_type bt)
+/*
+pos_list board::find_country(country_type country)
 {
-   chesses *ptr = occupied_list;
-   chesses *found = NULL;
+    pos_list l;
 
-   while (ptr)
-   {
-      if (ptr->item->belong_to == bt)
-      {
-          chesses *new_found = new chesses;
+    for (int i = 0; i < MAXPOS; i ++)
 
-          new_found->item = ptr->item;
-          new_found->next = found;
-          found = new_found;
-      }
+          l.push_back(i);
 
-      ptr = ptr->next;
-   }
-
-   return found;
+    return l;
 }
-
-chesses *board::find_country(country_type c)
-{
-   chesses *ptr = occupied_list;
-   chesses *found = NULL;
-
-   while (ptr)
-   {
-      if (ptr->item->country == c)
-      {
-          chesses *new_found = new chesses;
-
-          new_found->item = ptr->item;
-          new_found->next = found;
-          found = new_found;
-      }
-
-      ptr = ptr->next;
-   }
-
-   return found;
-}
-
-chesses *board::find(position *p)
-{
-   chesses *ptr = occupied_list;
-   chesses *found = NULL;
-
-   while (ptr)
-   {
-      if ( (ptr->item->country == p->country) &&
-           (ptr->item->row == p->row) &&
-           (ptr->item->col == p->col)
-         )
-      {
-          chesses *new_found = new chesses;
-
-          new_found->item = ptr->item;
-          new_found->next = found;
-          found = new_found;
-      }
-
-      ptr = ptr->next;
-   }
-
-   return found;
-}
-
 */
-
 
 
 #endif // OBJECT_CPP

@@ -3,6 +3,8 @@
 
 #include <QString>
 
+#define NORANK -100
+
 //
 // new types
 //
@@ -21,11 +23,12 @@ typedef enum {
     picked_up,
     hidden,
     extra,
+    empty
 } state_type;
 
 typedef int row_type; // 0, 1, 2, 3, 4, 5
 typedef int col_type; // 0, 1, 2, 3, 4
-typedef int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0
+typedef int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0, NORANK
 
 //
 // functions
