@@ -27,23 +27,20 @@ void draw_main_board(QPainter * paint)
 void draw_empty_chess( QPainter * paint, int i)
 {
 
-    position p(i);
-    country_type country = p.country;
-    row_type row = p.row;
-    col_type col = p.col;
+    position pos(i);
+    country_type country = pos.country;
+    row_type row = pos.row;
+    col_type col = pos.col;
 
-    structxy xy = get_top_left_corner(p);
+    structxy xy = get_top_left_corner(pos);
     structxy ab = get_size_xy(country);   
 
-    structxy xy2 = coordinatexy(country, row, col, 1.0, 1.0/2);
+    structxy xy2 = coordinatexy(pos, 1.0, 1.0/2);
     structxy xyn = coordinatexy(country, row, col+1, 0.0, 1.0/2);
     structxy xy3 = coordinatexy(country, row, col, 1.0/2, 1.0);
     structxy xyd = coordinatexy(country, row+1, col, 1.0/2, 0.0);
     structxy xy0 = coordinatexy(country, row, col, 1.0/2, 1.0/2);
     structxy xynew;
-
-
-    position pos(country, row, col);
 
     paint->setPen(QPen(Qt::blue));
 
