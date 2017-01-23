@@ -4,6 +4,10 @@
 #include "utils.h"
 
 //
+#include <vector>
+//
+
+//
 class position
 {
 public:
@@ -34,42 +38,26 @@ public:
 
 };
 
-typedef struct chess_list {
-
-    //
-    // Here really subtle issue whether to use
-    //      (chess) or (chess *) for declaring item
-    // have to be very careful
-    //      (chess) is to copy the object
-    //      (chess *) is only copy the pointer
-    // if here thing gets changed,
-    //      the codes in other files have to change too
-
-    // chess item; // to copy the object
-    chess *item; // to copy the pointer
-
-    chess_list *next;
-
-} chesses;
+typedef std::vector <chess> chesses;
 
 //
 class board
 {
 public:
-    chesses *occupied_list;
+    chesses * occupied_list;
 
     board();
     void occupy(chess);
     void delete_position(position);
-    bool occupied(position);
+    bool is_occupied(position);
     void delete_country(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
 
-    chesses *find(state_type);
-    chesses *find(rank_type);
-    chesses *find(country_type); // according to belong_to
-    chesses *find_country(country_type);
-    chesses *find(position*);
+    chesses * find(state_type);
+    chesses * find(rank_type);
+    chesses * find(country_type); // according to belong_to
+    chesses * find_country(country_type);
+    chesses * find(position*);
 
 
 };

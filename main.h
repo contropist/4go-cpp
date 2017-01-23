@@ -20,7 +20,8 @@ private:
     QPainter * paint;
 };
 
-
+//
+void redraw(QPainter *);
 
 
 #endif // MAIN_H

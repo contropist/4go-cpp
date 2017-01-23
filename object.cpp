@@ -87,21 +87,14 @@ bool chess::movable()
 //
 board::board()
 {
-    occupied_list = NULL;
+    occupied_list = new chesses;
 }
 
 
 void board::occupy(chess c)
 {
 
-   chess new_c = c;
-
-   chesses *new_ptr = new chesses;
-
-   new_ptr->item = &new_c;
-   new_ptr->next = occupied_list;
-
-   occupied_list = new_ptr;
+    occupied_list->push_back(c);
 
 }
 
@@ -113,7 +106,7 @@ void board::delete_position(position p)
     return;
 }
 
-bool board::occupied(position p)
+bool board::is_occupied(position p)
 {
     //
     return true;
@@ -130,7 +123,7 @@ bool board::is_empty(country_type belong_to);
     //
     return false;
 }
-*/
+
 
 chesses *board::find(state_type s)
 {
@@ -245,7 +238,7 @@ chesses *board::find(position *p)
    return found;
 }
 
-
+*/
 
 
 

@@ -23,10 +23,9 @@ void MyMainWindow::paintEvent(QPaintEvent *)
 //    paint->drawText(QRectF(QPointF(150, 150), QSizeF(30, 30)),
 //                    Qt::AlignCenter, "军长");
 
-    draw_chess_board(paint);
+    redraw(paint);
 
     paint->end();
-
 
 
 
@@ -44,8 +43,25 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
 MyMainWindow::~MyMainWindow()
 {
+    delete paint;
+}
+
+
+//
+void draw_all_chesses(QPainter * paint)
+{
+
+    return;
 
 }
+
+//
+void redraw(QPainter * paint)
+{
+    draw_chess_board(paint);
+    draw_all_chesses(paint);
+}
+
 
 //
 int main(int argc, char *argv[])
