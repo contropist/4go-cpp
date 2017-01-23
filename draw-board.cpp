@@ -2,7 +2,7 @@
 #define DRAW_BOARD_CPP
 
 #include "parameter.h"
-#include "utils.h"
+#include "def.h"
 #include "object.h"
 
 #define corner 22 // corner size for draw rounded rectangle

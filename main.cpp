@@ -1,7 +1,7 @@
 #include "main.h"
 #include "parameter.h"
 #include "object.h"
-#include "utils.h"
+#include "def.h"
 #include "draw-board.h"
 
 #include <QApplication>

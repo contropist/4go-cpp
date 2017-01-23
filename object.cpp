@@ -2,7 +2,7 @@
 #define OBJECT_CPP
 
 #include "object.h"
-#include "utils.h"
+#include "def.h"
 
 //
 // position
@@ -24,8 +24,35 @@ int position::encode()
     if (c_code <= 3)
         return c_code * 30 + row * 5 + col;
     else
-        return 120 + row * 3 + col;
+        return c_code * 30 + row * 3 + col;
 
+}
+
+position::position(int code)
+{
+    int r = code % 30;
+    int c = (code - r) / 30;
+
+    switch (c)
+    {
+        case 0: country = down;  break;
+        case 1: country = right; break;
+        case 2: country = up;    break;
+        case 3: country = left;  break;
+        case 4: country = middle;break;
+        default: throw("error in decoding position");
+    }
+
+    if (c <= 3)
+    {
+        col = r % 5;
+        row = (r - col) / 5;
+    }
+    else
+    {
+        col = r % 3;
+        row = (r - col) / 3;
+    }
 }
 
 position::position(country_type co, row_type r, col_type cl)
@@ -86,6 +113,20 @@ bool position::valid()
 //
 // chess
 //
+
+chess_type::chess_type()
+{
+    set_empty(0);
+}
+
+void chess_type::set_empty(int c)
+{
+    rank = NORANK;
+    belong_to = null;
+    state = empty;
+    code = c;
+}
+
 bool chess_type::is_labor()
 {
     return (rank == 30);
@@ -101,19 +142,6 @@ bool chess_type::movable()
     return (!
             ( (rank == 10) || (rank == 100) )
            );
-}
-
-void chess_type::set_empty(int c)
-{
-    rank = NORANK;
-    belong_to = null;
-    state = empty;
-    code = c;
-}
-
-chess_type::chess_type()
-{
-    set_empty(0);
 }
 
 //
@@ -213,18 +241,21 @@ pos_list board::find_allies(country_type belong_to)
     return l;
 }
 
-/*
+
 pos_list board::find_country(country_type country)
 {
     pos_list l;
 
     for (int i = 0; i < MAXPOS; i ++)
+    {
+        position p(i);
 
-          l.push_back(i);
+        if (p.country == country)
+            l.push_back(i);
+    }
 
     return l;
 }
-*/
 
 
 #endif // OBJECT_CPP

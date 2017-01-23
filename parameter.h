@@ -3,7 +3,7 @@
 
 #define LSIZE 20.0 // changeable to resize
 
-#include "utils.h"
+#include "def.h"
 
 constexpr float lsize = LSIZE;
 constexpr float rsize = lsize*2;

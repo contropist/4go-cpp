@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "utils.h"
+#include "def.h"
 
 //
 #include <vector>
@@ -68,7 +68,6 @@ public:
     pos_list find(country_type); // according to belong_to
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);
-    pos_list find(position);
 
 
 };
