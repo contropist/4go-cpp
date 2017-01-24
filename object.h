@@ -60,9 +60,10 @@ typedef std::vector <int> pos_list;
 
 class board
 {
-public:
+private:
     chess_type chesses[MAXPOS];
 
+public:
     board();
     void occupy(position, rank_type, country_type, state_type);
     void delete_position(position);
@@ -76,6 +77,7 @@ public:
     pos_list find(country_type); // according to belong_to
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);
+    chess_type find_chess(position);
 
 
 };

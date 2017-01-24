@@ -1,11 +1,9 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS2_H
+#define UTILS2_H
 
-#include "object.h"
+#define NOPOSITION -100
+//
+int search_xy(int mouse_x, int mouse_y);
+//
 
-#include <QPainter>
-
-void draw_chess(QPainter * paint,
-                chess_type c);
-
-#endif // UTILS_H
+#endif // UTILS2_H

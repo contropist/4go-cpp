@@ -3,7 +3,7 @@
 
 #include "object.h"
 #include "def.h"
-#include "utils.h"
+#include "drawchess.h"
 
 //
 // position
@@ -289,6 +289,11 @@ void board::draw_all_chesses(QPainter * paint)
             draw_chess(paint, chesses[i]);
     }
 
+}
+
+chess_type board::find_chess(position p)
+{
+    return chesses[p.encode()];
 }
 
 

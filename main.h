@@ -16,6 +16,8 @@ public:
 
 private:
     void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent *);
+
 //    QImage * image;
     QPainter * paint;
 
@@ -23,6 +25,7 @@ private:
 
 //
 void redraw(QPainter *);
+void click_pos(int);
 
 
 #endif // MAIN_H
