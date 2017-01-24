@@ -90,7 +90,7 @@ structxy coordinatexy(country_type country,
                             && (col < col_num(country)))
 
         return {coordinatexy(down, 0, col*2, offset_x, 0).x,
-                coordinatexy(left, 0, row*2, offset_y, 0).y * rsize/4};
+                coordinatexy(left, 0, row*2, offset_y, 0).y + rsize/4};
 
     else
         return starting_point(country)
