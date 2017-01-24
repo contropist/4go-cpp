@@ -36,25 +36,21 @@ void draw_chess(QPainter * paint,
     paint->drawRoundRect(QRectF(QPointF(xy.x, xy.y), QSizeF(ab.x, ab.y)),
                            corner, corner);
 
-    QFont font;
-    font.setPointSizeF(lsize*57/100);
-    paint->setFont(font);
+    paint->setFont(QFont("Times", lsize*0.57));
 
     switch (p.country)
     {
         case left:
                 paint->save();
-                paint->rotate(90.0);
-                paint->drawText(xy.x, xy.y,
-                            // QRectF(QPointF(xy.x, xy.y), QSizeF(ab.x, ab.y)),
-                            // Qt::AlignCenter,
-                                rank_code(c.rank));
+                paint->rotate(90);
+                paint->drawText(QRectF(QPointF(xy.y, -xy.x - ab.x), QSizeF(ab.y, ab.x)),
+                                Qt::AlignCenter, rank_code(c.rank));
                 paint->restore();
                 break;
         case right:
                 paint->save();
-                paint->rotate(-90.0);
-                paint->drawText(QRectF(QPointF(xy.x, xy.y), QSizeF(ab.x, ab.y)),
+                paint->rotate(-90);
+                paint->drawText(QRectF(QPointF(-xy.y - ab.y, xy.x + iota * ab.x), QSizeF(ab.y, ab.x)),
                                 Qt::AlignCenter, rank_code(c.rank));
                 paint->restore();
                 break;

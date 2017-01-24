@@ -17,9 +17,6 @@ void MyMainWindow::paintEvent(QPaintEvent *)
 
     paint->begin(this);
 
-//    paint->drawText(QRectF(QPointF(150, 150), QSizeF(30, 30)),
-//                    Qt::AlignCenter, "军长");
-
     redraw(paint);
 
     paint->end();
@@ -37,8 +34,8 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     b.occupy(position(up, 4, 1), 38, up, normal);
     b.occupy(position(down, 1, 2), 33, left, normal);
-    b.occupy(position(right, 3, 2), 40, down, normal);
-    b.occupy(position(left, 1, 4), 39, right, normal);
+    b.occupy(position(right, 3, 2), 39, down, normal);
+    b.occupy(position(left, 1, 4), 40, right, normal);
     b.occupy(position(middle, 0, 0), 30, down, normal);
 
 
