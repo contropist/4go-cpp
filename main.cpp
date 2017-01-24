@@ -67,12 +67,8 @@ void redraw(QPainter * paint)
 //
 void click_pos(int position_code)
 {
-    position p(position_code);
 
-    if (b.find_chess(position_code).state == empty)
-        b.occupy(p, 38, down, normal);
-    else
-        b.delete_position(p);
+    ;
 
 }
 
