@@ -22,6 +22,8 @@ constexpr float margin2 = lsize*9.0/10;
 constexpr float frame_size = margin0 + margin1 + margin2*2
                         + arena_height*2 + arena_width;
 
+constexpr int corner = 22; // corner size for draw rounded rectangle
+
 
 // define structure of coordinates
 typedef struct // coordinates

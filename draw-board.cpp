@@ -5,8 +5,6 @@
 #include "def.h"
 #include "object.h"
 
-#define corner 22 // corner size for draw rounded rectangle
-
 //
 
 void draw_empty_chess(QPainter *, int);

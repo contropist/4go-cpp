@@ -120,6 +120,14 @@ chess_type::chess_type()
     set_empty(0);
 }
 
+chess_type::chess_type(rank_type r, country_type b, state_type s, int c)
+{
+    rank = r;
+    belong_to = b;
+    state = s;
+    code = c;
+}
+
 void chess_type::set_empty(int c)
 {
     rank = NORANK;
@@ -159,11 +167,12 @@ board::board()
 }
 
 
-void board::occupy(chess_type chess, position p)
+void board::occupy(position p, rank_type rank, country_type belong_to, state_type state)
 {
 
     int code = p.encode();
 
+    chess_type chess(rank, belong_to, state, code);
     chesses[code] = chess;
 
 }
@@ -276,7 +285,8 @@ void board::draw_all_chesses(QPainter * paint)
 {
     loop(i)
     {
-        draw_chess(paint, chesses[i]);
+        if (chesses[i].state != empty)
+            draw_chess(paint, chesses[i]);
     }
 
 }

@@ -18,6 +18,7 @@ private:
     void paintEvent(QPaintEvent *);
 //    QImage * image;
     QPainter * paint;
+
 };
 
 //

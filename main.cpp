@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QRectF>
 
+board b;
 
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
@@ -15,10 +16,6 @@ void MyMainWindow::paintEvent(QPaintEvent *)
     paint = new QPainter;
 
     paint->begin(this);
-//    paint->setPen(QPen(Qt::blue, 4, Qt::DashLine));
-//    paint->setBrush(QBrush(Qt::red, Qt::SolidPattern));
-
-//    paint->drawRect(100, 100, 150, 150);
 
 //    paint->drawText(QRectF(QPointF(150, 150), QSizeF(30, 30)),
 //                    Qt::AlignCenter, "军长");
@@ -38,6 +35,12 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     setWindowTitle("米勒酷四国军棋");
 
+    b.occupy(position(up, 4, 1), 38, up, normal);
+    b.occupy(position(down, 1, 2), 33, left, normal);
+    b.occupy(position(right, 3, 2), 40, down, normal);
+    b.occupy(position(left, 1, 4), 39, right, normal);
+    b.occupy(position(middle, 0, 0), 30, down, normal);
+
 
 }
 
@@ -46,20 +49,11 @@ MyMainWindow::~MyMainWindow()
     delete paint;
 }
 
-
-//
-void draw_all_chesses(QPainter * paint)
-{
-
-    return;
-
-}
-
 //
 void redraw(QPainter * paint)
 {
     draw_board(paint);
-    draw_all_chesses(paint);
+    b.draw_all_chesses(paint);
 }
 
 

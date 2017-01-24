@@ -46,6 +46,7 @@ public:
     int code;
 
     chess_type();
+    chess_type(rank_type, country_type, state_type, int);
     void set_empty(int c);
     bool is_labor();
     bool is_flag();
@@ -63,7 +64,7 @@ public:
     chess_type chesses[MAXPOS];
 
     board();
-    void occupy(chess_type, position);
+    void occupy(position, rank_type, country_type, state_type);
     void delete_position(position);
     bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to
