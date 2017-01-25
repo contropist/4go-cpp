@@ -66,7 +66,7 @@ private:
 public:
     board();
     void occupy(position, rank_type, country_type, state_type);
-    void delete_position(position);
+    void remove_position(position);
     bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to

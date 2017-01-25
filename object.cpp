@@ -177,7 +177,7 @@ void board::occupy(position p, rank_type rank, country_type belong_to, state_typ
 
 }
 
-void board::delete_position(position p)
+void board::remove_position(position p)
 {
     int code = p.encode();
 

@@ -11,13 +11,11 @@
 #include <QRectF>
 #include <QMouseEvent>
 
-board b;
-
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
 
     paint->begin(this);
-    redraw(paint);
+    redraw();
     paint->end();
 }
 
@@ -29,7 +27,7 @@ void MyMainWindow::mousePressEvent(QMouseEvent * event)
         if (position_code != NOPOSITION)
         {
             click_pos(position_code);
-            redraw(paint);
+            repaint();
         }
     }
 }
@@ -58,15 +56,22 @@ MyMainWindow::~MyMainWindow()
 }
 
 //
-void redraw(QPainter * paint)
+void MyMainWindow::redraw()
 {
     draw_board(paint);
     b.draw_all_chesses(paint);
 }
 
 //
-void click_pos(int position_code)
+void MyMainWindow::click_pos(int position_code)
 {
+
+    position p(position_code);
+
+    if (b.is_occupied(p))
+        b.remove_position(p);
+    else
+        b.occupy(p, 40, down, picked_up);
 
     ;
 
