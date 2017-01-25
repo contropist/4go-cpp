@@ -3,7 +3,9 @@
 
 #include <QString>
 
-#define NORANK -100
+#define NORANK 10000
+#define NOPOSITION 20000
+
 
 //
 // new types
@@ -26,15 +28,16 @@ typedef enum {
     empty
 } state_type;
 
-typedef int row_type; // 0, 1, 2, 3, 4, 5
-typedef int col_type; // 0, 1, 2, 3, 4
-typedef int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0, NORANK
+typedef unsigned int row_type; // 0, 1, 2, 3, 4, 5
+typedef unsigned int col_type; // 0, 1, 2, 3, 4
+typedef unsigned int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0, NORANK
+typedef unsigned int int_type; // 0..MAXPOS, NOPOSITION
 
 //
 // functions
 //
-int row_num(country_type);
-int col_num(country_type);
+row_type row_num(country_type);
+col_type col_num(country_type);
 
 country_type right_country(country_type);
 country_type left_country(country_type);

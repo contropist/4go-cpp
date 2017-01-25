@@ -5,12 +5,12 @@
 #include "def.h"
 
 //
-int row_num(country_type country)
+row_type row_num(country_type country)
 {
     return (country == middle)? 3:6;
 }
 
-int col_num(country_type country)
+col_type col_num(country_type country)
 {
     return (country == middle)? 3:5;
 }

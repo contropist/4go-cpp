@@ -23,7 +23,7 @@ void MyMainWindow::mousePressEvent(QMouseEvent * event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        int position_code = search_xy(event->x(), event->y());
+        int_type position_code = search_xy(event->x(), event->y());
         if (position_code != NOPOSITION)
         {
             click_pos(position_code);
@@ -63,7 +63,7 @@ void MyMainWindow::redraw()
 }
 
 //
-void MyMainWindow::click_pos(int position_code)
+void MyMainWindow::click_pos(int_type position_code)
 {
 
     position p(position_code);
@@ -71,7 +71,7 @@ void MyMainWindow::click_pos(int position_code)
     if (b.is_occupied(p))
         b.remove_position(p);
     else
-        b.occupy(p, 40, down, picked_up);
+        b.occupy(p, 38, down, picked_up);
 
     ;
 

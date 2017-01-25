@@ -83,7 +83,7 @@ structxy starting_point(country_type country)
 
 //
 structxy coordinatexy(country_type country,
-                      int row, int col,
+                      row_type row, col_type col,
                       float offset_x, float offset_y)
 {
     if ((country == middle) && (row < row_num(country))

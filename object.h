@@ -12,8 +12,8 @@
 #define MAXPOS  129 // 4*row_num*col_num + 3*3
 #define MAXPOS0 120 // 4*row_num*col_num, without middle
 
-#define loop(i)  for (int i = 0; i < MAXPOS;  i ++)
-#define loop0(i) for (int i = 0; i < MAXPOS0; i ++) // without middle country
+#define loop(i)  for (int_type i = 0; i < MAXPOS;  i ++)
+#define loop0(i) for (int_type i = 0; i < MAXPOS0; i ++) // without middle country
 
 //
 class position
@@ -43,7 +43,7 @@ public:
     country_type belong_to;
     state_type state;
 
-    int code;
+    int_type code;
 
     chess_type();
     chess_type(rank_type, country_type, state_type, int);
@@ -55,7 +55,7 @@ public:
 };
 
 //
-typedef std::vector <int> pos_list;
+typedef std::vector <int_type> pos_list;
 //
 
 class board
@@ -79,6 +79,7 @@ public:
     pos_list find_country(country_type);
     chess_type find_chess(position);
 
+    pos_list route_list(chess_type, position);
 
 };
 

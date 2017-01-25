@@ -25,7 +25,7 @@ public:
     ~MyMainWindow();
 
     void redraw();
-    void click_pos(int);
+    void click_pos(int_type);
 
 };
 

@@ -64,13 +64,13 @@ position::position(country_type co, row_type r, col_type cl)
         throw("Wrong country name");
 
 
-    if ( (r >= 0) && (r < row_num(co)) )
+    if (r < row_num(co))
        row = r;
     else
        throw("Wrong row number"); // error
 
 
-    if ( (cl >= 0) && (cl < col_num(co)) )
+    if (cl < col_num(co))
        col = cl;
     else
        throw("Wrong col number"); // error
@@ -104,9 +104,8 @@ bool position::on_rail()
 
 bool position::valid()
 {
-    return ( (row >= 0) &&
+    return (
              (row < (row_num(country))) &&
-             (col >= 0) &&
              (col < (col_num(country)))
            );
 }
@@ -170,7 +169,7 @@ board::board()
 void board::occupy(position p, rank_type rank, country_type belong_to, state_type state)
 {
 
-    int code = p.encode();
+    int_type code = p.encode();
 
     chess_type chess(rank, belong_to, state, code);
     chesses[code] = chess;
@@ -179,14 +178,14 @@ void board::occupy(position p, rank_type rank, country_type belong_to, state_typ
 
 void board::remove_position(position p)
 {
-    int code = p.encode();
+    int_type code = p.encode();
 
     chesses[code].set_empty(code);
 }
 
 bool board::is_occupied(position p)
 {
-    int code = p.encode();
+    int_type code = p.encode();
 
     return (chesses[code].state != empty);
 
