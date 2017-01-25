@@ -4,7 +4,15 @@
 #include <QString>
 
 #define NORANK 10000
-#define NOPOSITION 20000
+#define NOPOSITION 15000
+
+// macros
+#define MAXPOS  129 // 4*row_num*col_num + 3*3
+#define MAXPOS0 120 // 4*row_num*col_num, without middle
+
+#define loop(i)  for (int_type i = 0; i < MAXPOS;  i ++)
+#define loop0(i) for (int_type i = 0; i < MAXPOS0; i ++) // without middle country
+//
 
 
 //
@@ -31,7 +39,7 @@ typedef enum {
 typedef unsigned int row_type; // 0, 1, 2, 3, 4, 5
 typedef unsigned int col_type; // 0, 1, 2, 3, 4
 typedef unsigned int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0, NORANK
-typedef unsigned int int_type; // 0..MAXPOS, NOPOSITION
+typedef unsigned int int_type; // 0..MAXPOS, NOPOSITION = position_type
 
 //
 // functions

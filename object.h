@@ -8,12 +8,6 @@
 #include <QPainter>
 //
 
-// macros
-#define MAXPOS  129 // 4*row_num*col_num + 3*3
-#define MAXPOS0 120 // 4*row_num*col_num, without middle
-
-#define loop(i)  for (int_type i = 0; i < MAXPOS;  i ++)
-#define loop0(i) for (int_type i = 0; i < MAXPOS0; i ++) // without middle country
 
 //
 class position
@@ -24,9 +18,9 @@ public:
     col_type col;
 
     position(country_type, row_type, col_type);
-    position(int code);
+    position(int_type code);
 
-    int encode();
+    int_type encode();
 
     bool is_camp();
     bool is_base();
@@ -66,8 +60,8 @@ private:
 public:
     board();
     void occupy(position, rank_type, country_type, state_type);
-    void remove_position(position);
-    bool is_occupied(position);
+    void remove_position(int_type);
+    bool is_occupied(int_type);
     void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
     void draw_all_chesses(QPainter *);
@@ -77,9 +71,9 @@ public:
     pos_list find(country_type); // according to belong_to
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);
-    chess_type find_chess(position);
+    chess_type find_chess(int_type);
 
-    pos_list route_list(chess_type, position);
+    pos_list route_list(chess_type, int_type);
 
 };
 

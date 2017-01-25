@@ -66,12 +66,10 @@ void MyMainWindow::redraw()
 void MyMainWindow::click_pos(int_type position_code)
 {
 
-    position p(position_code);
-
-    if (b.is_occupied(p))
-        b.remove_position(p);
+    if (b.is_occupied(position_code))
+        b.remove_position(position_code);
     else
-        b.occupy(p, 38, down, picked_up);
+        b.occupy(position_code, 38, down, picked_up);
 
     ;
 

@@ -8,7 +8,7 @@
 //
 // position
 //
-int position::encode()
+int_type position::encode()
 {
     int c_code;
 
@@ -29,7 +29,7 @@ int position::encode()
 
 }
 
-position::position(int code)
+position::position(int_type code)
 {
     int r = code % 30;
     int c = (code - r) / 30;
@@ -176,19 +176,14 @@ void board::occupy(position p, rank_type rank, country_type belong_to, state_typ
 
 }
 
-void board::remove_position(position p)
+void board::remove_position(int_type position_code)
 {
-    int_type code = p.encode();
-
-    chesses[code].set_empty(code);
+    chesses[position_code].set_empty(position_code);
 }
 
-bool board::is_occupied(position p)
+bool board::is_occupied(int_type position_code)
 {
-    int_type code = p.encode();
-
-    return (chesses[code].state != empty);
-
+    return (chesses[position_code].state != empty);
 }
 
 void board::delete_belong_to(country_type belong_to) // according to belong_to
@@ -280,6 +275,12 @@ pos_list board::find_country(country_type country)
     return l;
 }
 
+chess_type board::find_chess(int_type position_code)
+{
+    return chesses[position_code];
+}
+
+
 void board::draw_all_chesses(QPainter * paint)
 {
     loop(i)
@@ -288,11 +289,6 @@ void board::draw_all_chesses(QPainter * paint)
             draw_chess(paint, chesses[i]);
     }
 
-}
-
-chess_type board::find_chess(position p)
-{
-    return chesses[p.encode()];
 }
 
 
