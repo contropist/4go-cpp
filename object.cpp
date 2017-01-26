@@ -203,11 +203,6 @@ void board::change_state(position p, state_type new_state)
     change_state(p.encode(), new_state);
 }
 
-void board::change_state(chess_type c, state_type new_state)
-{
-    change_state(c.code, new_state);
-}
-
 bool board::is_occupied(int_type position_code)
 {
     return (chesses[position_code].state != empty);

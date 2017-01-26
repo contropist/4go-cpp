@@ -161,27 +161,6 @@ pos_list labor_fly(int_type from_code, int_type to_code)
 
 
 // route-list modules
-/*
-pos_list direct_row(country_type country, row_type row, row_type row2, col_type col)
-{
-    pos_list line;
-
-    if (row == row2)
-        line.push_back(position(country, row, col).encode());
-    elseif (row2 > row)
-    {
-        line = direct_row(country, row + 1, row2, col);
-        line.push_back(position(country, row, col).encode());
-    }
-    else
-    {
-        reverse(line.begin(), line.end());
-    }
-
-    return line;
-
-}
-*/
 
 
 

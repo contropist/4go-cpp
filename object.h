@@ -67,7 +67,6 @@ public:
     void remove_position(position);
     void change_state(int_type, state_type);
     void change_state(position, state_type);
-    void change_state(chess_type, state_type);
     bool is_occupied(int_type);
     bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to

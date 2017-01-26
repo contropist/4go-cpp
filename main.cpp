@@ -86,6 +86,7 @@ void MyMainWindow::click_pos(int_type position_code)
     if ((picked_pos == NOPOSITION) && (c.state != empty))
     //      (b.which_turn == c.belong_to) &&
         if ((c.movable()) && (!p.is_base()))
+
             b.change_state(p, picked_up);
 
     if (picked_pos != NOPOSITION) // nothing has been picked up
