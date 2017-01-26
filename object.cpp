@@ -163,16 +163,23 @@ board::board()
         chesses[i].set_empty(i);
     }
 
+    which_turn = down;
+
 }
 
+
+void board::occupy(int_type position_code, rank_type rank, country_type belong_to, state_type state)
+{
+
+    chess_type chess(rank, belong_to, state, position_code);
+    chesses[position_code] = chess;
+
+}
 
 void board::occupy(position p, rank_type rank, country_type belong_to, state_type state)
 {
 
-    int_type code = p.encode();
-
-    chess_type chess(rank, belong_to, state, code);
-    chesses[code] = chess;
+    occupy(p.encode(), rank, belong_to, state);
 
 }
 
@@ -181,9 +188,34 @@ void board::remove_position(int_type position_code)
     chesses[position_code].set_empty(position_code);
 }
 
+void board::remove_position(position p)
+{
+    remove_position(p.encode());
+}
+
+void board::change_state(int_type position_code, state_type new_state)
+{
+    chesses[position_code].state = new_state;
+}
+
+void board::change_state(position p, state_type new_state)
+{
+    change_state(p.encode(), new_state);
+}
+
+void board::change_state(chess_type c, state_type new_state)
+{
+    change_state(c.code, new_state);
+}
+
 bool board::is_occupied(int_type position_code)
 {
     return (chesses[position_code].state != empty);
+}
+
+bool board::is_occupied(position p)
+{
+    return is_occupied(p.encode());
 }
 
 void board::delete_belong_to(country_type belong_to) // according to belong_to
@@ -280,6 +312,10 @@ chess_type board::find_chess(int_type position_code)
     return chesses[position_code];
 }
 
+chess_type board::find_chess(position p)
+{
+    return find_chess(p.encode());
+}
 
 void board::draw_all_chesses(QPainter * paint)
 {

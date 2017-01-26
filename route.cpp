@@ -6,19 +6,144 @@
 
 #include <vector>
 
-// #include <algorithm>
+#include <algorithm>
 //
 
 typedef std::vector <pos_list> branches;
 
-pos_list search_next_step(branches fly_route_list, int_type from_code, int_type to_code)
+//
+template <typename T>
+bool member(T element, std::vector <T> list)
 {
-    pos_list chosen;
+    typename std::vector <T>::iterator ret;
+    ret = std::find(list.begin(), list.end(), element);
+
+    if (ret == list.end())
+        return false;
+    else
+        return true;
+
+}
+
+//
+pos_list neighbours_on_rail(int_type position_code)
+{
+    pos_list they, neighbours;
+    position p(position_code);
+
+    neighbours.push_back(position(p.country, p.row + 1, p.col).encode());
+    neighbours.push_back(position(p.country, p.row - 1, p.col).encode());
+    neighbours.push_back(position(p.country, p.row, p.col + 1).encode());
+    neighbours.push_back(position(p.country, p.row, p.col - 1).encode());
+
+    if ((p.country != middle) && (p.row == 0) && (p.col == 0))
+        neighbours.insert(neighbours.begin(), position(left_country(p.country), 0, 4).encode());
+    else if ((p.country != middle) && (p.row == 0) && (p.col == 4))
+        neighbours.insert(neighbours.begin(), position(right_country(p.country), 0, 4).encode());
+    else if ((p.country != middle) && (p.row == 0) && (p.col % 2 == 0))
+        switch (p.country)
+        {
+            case down:
+                neighbours.insert(neighbours.begin(), position(middle, 2, p.col/2).encode()); break;
+            case up:
+                neighbours.insert(neighbours.begin(), position(middle, 0, 2 - p.col/2).encode()); break;
+            case left:
+                neighbours.insert(neighbours.begin(), position(middle, p.col/2, 0).encode()); break;
+            case right:
+                neighbours.insert(neighbours.begin(), position(middle, 2 - p.col/2, 2).encode()); break;
+            default: ;
+        }
+     else if (p.country == middle)
+     {
+         unsigned int counter = 0;
+         country_type country2; col_type col2;
+         for (country2 = down; counter < 4; country2 ++, counter ++)
+             for (col2 = 0; col2 <= 4; col2 += 2)
+                 if (member(position_code, neighbours_on_rail(position(country2, 0, col2).encode())))
+                     neighbours.insert(neighbours.begin(), position(country2, 0, col2).encode());
+    }
+    else
+        // error
+        return they;
+}
+
+//
+pos_list search_next_step(board & b, branches fly_route_list, int_type from_code, int_type to_code)
+{
     branches new_list;
-    int_type final_pos;
+    int_type final_pos, next_pos;
+    pos_list origin, chosen, passed_positions, route, new_route, neighbours;
+    size_t i, j;
 
+    origin.push_back(from_code);
 
-    chosen.push_back(from_code);
+    // merge fly_route_list and remove duplicates
+    // to passed_positions
+    // key factor to become faster
+    pos_list fly_route;
+
+    size_t len = fly_route_list.size();
+    for(i = 0; i < len; i ++)
+    {
+        fly_route = fly_route_list[i];
+
+        size_t len_fly_route = fly_route.size();
+        for(j = 0; j < len_fly_route; j ++)
+            // test if passed_positions already contains the element
+            // if not, add it
+            if (!member(fly_route[j], passed_positions))
+                passed_positions.push_back(fly_route[j]); // merged
+    }
+
+    bool quit = false;
+    chosen = origin;
+
+    for(i = 0; i < len; i ++)
+    {
+        route = fly_route_list[i];
+
+        final_pos = route.back();
+        if (final_pos == to_code)
+        {
+            chosen = route;
+            quit = true;
+            break;
+        }
+        else
+        {
+            neighbours = neighbours_on_rail(final_pos);
+
+            size_t len_neighbours = neighbours.size();
+            for(j = 0; j < len_neighbours; j ++)
+            {
+                next_pos = neighbours[j];
+
+                if (((!b.is_occupied(next_pos)) || (next_pos == to_code)) &&
+                    (!member(next_pos, passed_positions)))
+                    // have to ensure the route does not pass the same place twice
+                {
+                    new_route = route;
+                    new_route.push_back(next_pos);
+
+                    new_list.push_back(new_route);
+                }
+            }
+
+        }
+
+    }
+
+    if (quit)
+
+        return chosen;
+
+    else if (new_list.empty())
+
+        return origin;
+
+    else
+
+        return search_next_step(b, new_list, from_code, to_code);
 
 }
 

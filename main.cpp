@@ -66,12 +66,48 @@ void MyMainWindow::redraw()
 void MyMainWindow::click_pos(int_type position_code)
 {
 
-    if (b.is_occupied(position_code))
-        b.remove_position(position_code);
-    else
-        b.occupy(position_code, 38, down, picked_up);
+    if (position_code == NOPOSITION) return;
 
-    ;
+    position p(position_code);
+    chess_type c = b.find_chess(p);
+
+    int_type picked_pos;
+
+    pos_list picked_list = b.find(picked_up);
+    unsigned int len = picked_list.size();
+
+    if (len > 1)
+        throw("picked up more than one chess in click_pos()");
+    else if (len == 1)
+        picked_pos = picked_list[0];
+    else
+        picked_pos = NOPOSITION;
+
+    if ((picked_pos == NOPOSITION) && (c.state != empty))
+    //      (b.which_turn == c.belong_to) &&
+        if ((c.movable()) && (!p.is_base()))
+            b.change_state(p, picked_up);
+
+    if (picked_pos != NOPOSITION) // nothing has been picked up
+    {
+       bool accessible = !b.is_occupied(p); // need to modify!
+       chess_type picked_chess = b.find_chess(picked_pos);
+
+       if (!accessible)
+       {
+            b.change_state(picked_pos, normal);
+       }
+
+       if (accessible && (c.state == empty)) // empty position
+       {
+           b.remove_position(picked_pos);
+            // draw route
+            // ...
+
+            b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
+
+       }
+    }
 
 }
 

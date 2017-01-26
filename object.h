@@ -58,10 +58,18 @@ private:
     chess_type chesses[MAXPOS];
 
 public:
+    country_type which_turn;
+
     board();
+    void occupy(int_type, rank_type, country_type, state_type);
     void occupy(position, rank_type, country_type, state_type);
     void remove_position(int_type);
+    void remove_position(position);
+    void change_state(int_type, state_type);
+    void change_state(position, state_type);
+    void change_state(chess_type, state_type);
     bool is_occupied(int_type);
+    bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
     void draw_all_chesses(QPainter *);
@@ -72,6 +80,7 @@ public:
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);
     chess_type find_chess(int_type);
+    chess_type find_chess(position);
 
     pos_list route_list(chess_type, int_type);
 

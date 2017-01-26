@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "parameter.h"
 
-bool with_in(int mouse_x, int mouse_y, structxy xy, structxy ab)
+bool within(int mouse_x, int mouse_y, structxy xy, structxy ab)
 {
     float ratio_x = (mouse_x - xy.x)/ab.x;
     float ratio_y = (mouse_y - xy.y)/ab.y;
@@ -21,7 +21,7 @@ int search_xy(int mouse_x, int mouse_y)
         structxy xy = get_top_left_corner(p);
         structxy ab = get_size_xy(p.country);
 
-        if (with_in(mouse_x, mouse_y, xy, ab))
+        if (within(mouse_x, mouse_y, xy, ab))
             return i;
     }
 
