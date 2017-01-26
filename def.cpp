@@ -31,22 +31,6 @@ country_type right_country(country_type country)
 }
 
 //
-country_type operator ++ (country_type & country, int) // country ++
-{
-    country_type temp_country = country;
-    country = right_country(country);
-
-    return temp_country;
-}
-
-//
-country_type operator ++ (country_type & country) // ++ country
-{
-    country = right_country(country);
-    return country;
-}
-
-//
 country_type left_country(country_type country)
 {
     switch (country)
@@ -62,25 +46,41 @@ country_type left_country(country_type country)
 }
 
 //
-country_type operator -- (country_type & country, int) // country --
+country_type right_country(country_type country, unsigned int i)
+{
+    if (i == 0)
+        return country;
+    else if (i > 0)
+        return right_country(right_country(country), i - 1);
+    else
+        throw("Wrong argument in right_country");
+}
+
+//
+country_type left_country(country_type country, unsigned int i)
+{
+    if (i == 0)
+        return country;
+    else if (i > 1)
+        return left_country(left_country(country), i - 1);
+    else
+        throw("Wrong argument in left_country");
+}
+
+//
+country_type operator ++ (country_type & country, int) // country ++
 {
     country_type temp_country = country;
-    country = left_country(country);
+    country = right_country(country);
 
     return temp_country;
 }
 
 //
-country_type operator -- (country_type & country) // -- country
+country_type operator ++ (country_type & country) // ++ country
 {
-    country = left_country(country);
+    country = right_country(country);
     return country;
-}
-
-// ally
-country_type ally(country_type country)
-{
-    return right_country(right_country(country));
 }
 
 //
@@ -104,6 +104,27 @@ QString rank_code(rank_type rank)
     };
 }
 
+//
+// win = 1, lose = -1, equal = 0
+int beat_it(rank_type rank1, rank_type rank2)
+{
+    if ((rank1 == NORANK) || (rank2 == NORANK))
+        throw("Wrong rank in comparison when fighting");
+    else if (rank1 * rank2 == 0) // if either is bomb then equal
+        return 0;
+    else if ((rank1 == 30) && (rank2 == 100)) // laborer > landmine
+        return 1;
+    else if ((rank1 == 100) && (rank2 == 30)) // landmine < laborer
+        return -1;
+    else
+        if (rank1 > rank2)
+            return 1;
+        else if (rank1 < rank2)
+            return -1;
+        else
+            return 0;
+
+}
 
 
 #endif // DEF_CPP

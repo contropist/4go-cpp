@@ -48,17 +48,15 @@ row_type row_num(country_type);
 col_type col_num(country_type);
 
 country_type right_country(country_type);
-country_type left_country(country_type);
-country_type ally(country_type);
+country_type  left_country(country_type);
+
+country_type right_country(country_type, unsigned int); // country + 1, country + 2
+country_type  left_country(country_type, unsigned int); // country - 1, country - 2
 
 country_type operator ++ (country_type &, int); // country ++;
-country_type operator -- (country_type &, int); // country --;
-
 country_type operator ++ (country_type &); // ++ country;
-country_type operator -- (country_type &); // -- country;
 
 QString rank_code(rank_type);
-
-
+int beat_it(rank_type, rank_type);
 
 #endif // DEF_H

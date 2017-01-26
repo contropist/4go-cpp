@@ -46,8 +46,10 @@ pos_list route_list(board & b, chess_type from_chess, int_type to_code)
 
     //
 
+    // no moving
     if (from_code == to_code) return route;
 
+    // one-step moving
     if ((from.country == to.country) &&
             ((abs(from.row - to.row) + abs(from.col - to.col) == 1) ||
              ((from.is_camp() || to.is_camp()) && (abs(from.row - to.row) == 1) && (abs(from.col - to.col) == 1))))
@@ -56,6 +58,7 @@ pos_list route_list(board & b, chess_type from_chess, int_type to_code)
         return route;
     }
 
+    // moving on rail
     if (from.on_rail() && to.on_rail())
     {
         ;

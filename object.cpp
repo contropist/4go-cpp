@@ -279,7 +279,7 @@ pos_list board::find_allies(country_type belong_to)
     loop(i)
     {
         if ( (chesses[i].belong_to == belong_to) ||
-             (chesses[i].belong_to == ally(belong_to)) )
+             (chesses[i].belong_to == right_country(belong_to, 2)) )
             l.push_back(i);
     }
 
