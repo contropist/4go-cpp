@@ -312,15 +312,5 @@ chess_type board::find_chess(position p)
     return find_chess(p.encode());
 }
 
-void board::draw_all_chesses(QPainter * paint)
-{
-    loop(i)
-    {
-        if (chesses[i].state != empty)
-            draw_chess(paint, chesses[i]);
-    }
-
-}
-
 
 #endif // OBJECT_CPP

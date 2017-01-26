@@ -5,11 +5,14 @@
 #include "drawboard.h"
 #include "drawchess.h"
 #include "utils.h"
+#include "route.h"
 
 #include <QApplication>
 #include <QPainter>
 #include <QRectF>
 #include <QMouseEvent>
+
+#include <QTime>
 
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
@@ -59,7 +62,29 @@ MyMainWindow::~MyMainWindow()
 void MyMainWindow::redraw()
 {
     draw_board(paint);
-    b.draw_all_chesses(paint);
+    draw_all_chesses(b, paint);
+}
+
+//
+void MyMainWindow::draw_route(pos_list move_list,
+                              rank_type rank, country_type belong_to,
+                              float time = 0.1)
+{
+    size_t len = move_list.size();
+    for(size_t i = 0; i < len; i ++)
+    {
+        int_type pos = move_list[i];
+        b.remove_position(pos);
+        b.occupy(pos, rank, belong_to, picked_up);
+        repaint();
+
+        // sleep for some time
+        QTime t;
+        t.start();
+        while (t.elapsed() < 1000*time/len);
+
+        b.remove_position(pos);
+    }
 }
 
 //
@@ -91,8 +116,10 @@ void MyMainWindow::click_pos(int_type position_code)
 
     if (picked_pos != NOPOSITION) // nothing has been picked up
     {
-       bool accessible = !b.is_occupied(p); // need to modify!
        chess_type picked_chess = b.find_chess(picked_pos);
+
+       pos_list move_list = route_list(b, picked_chess, position_code);
+       bool accessible = (move_list.size() > 1);
 
        if (!accessible)
        {
@@ -101,9 +128,7 @@ void MyMainWindow::click_pos(int_type position_code)
 
        if (accessible && (c.state == empty)) // empty position
        {
-           b.remove_position(picked_pos);
-            // draw route
-            // ...
+            draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
 
             b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 

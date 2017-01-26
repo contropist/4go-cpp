@@ -2,7 +2,19 @@
 #define UTILS_CPP
 
 #include "drawchess.h"
+#include "def.h"
 #include "parameter.h"
+
+//
+void draw_all_chesses(board & b, QPainter * paint)
+{
+    loop(i)
+    {
+        if (b.is_occupied(i))
+            draw_chess(paint, b.find_chess(i));
+    }
+
+}
 
 //
 void draw_chess(QPainter * paint,

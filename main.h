@@ -26,6 +26,7 @@ public:
 
     void redraw();
     void click_pos(int_type);
+    void draw_route(pos_list, rank_type, country_type, float);
 
 };
 

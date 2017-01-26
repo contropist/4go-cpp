@@ -71,7 +71,6 @@ public:
     bool is_occupied(position);
     void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
-    void draw_all_chesses(QPainter *);
 
     pos_list find(state_type);
     pos_list find(rank_type);
@@ -80,8 +79,6 @@ public:
     pos_list find_country(country_type);
     chess_type find_chess(int_type);
     chess_type find_chess(position);
-
-    pos_list route_list(chess_type, int_type);
 
 };
 
