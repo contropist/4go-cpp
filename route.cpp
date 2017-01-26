@@ -29,6 +29,16 @@ void add(pos_list & route, int_type position_code, board & b)
         route.push_back(position_code);
 }
 
+// closest neighbours on the rail
+pos_list neighbours_on_rail(position p)
+{
+    pos_list neighbours;
+
+    if (!p.on_rail()) throw("not on the rail when calling neighbours_on_rail");
+
+    return neighbours;
+}
+
 //
 // move from one position to another position, according to current states of the board
 // if somewhere is blocked, the move is not allowed, returns original position of length 1
@@ -54,7 +64,7 @@ pos_list route_list(board & b, chess_type from_chess, int_type to_code)
             ((abs(from.row - to.row) + abs(from.col - to.col) == 1) ||
              ((from.is_camp() || to.is_camp()) && (abs(from.row - to.row) == 1) && (abs(from.col - to.col) == 1))))
     {
-        add(route, to_code, b);
+        route.push_back(to_code);
         return route;
     }
 
