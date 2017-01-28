@@ -56,24 +56,16 @@ position::position(int_type code)
     }
 }
 
-position::position(country_type co, row_type r, col_type cl)
+position::position(country_type c, row_type r, col_type cl)
 {
-    if (co != null)
-        country = co;
+    if (!valid_position(c, r, cl))
+        throw("Invalid arguments for position::position()"); // error
     else
-        throw("Wrong country name"); // error
-
-
-    if (r < row_num(co))
+    {
+       country = c;
        row = r;
-    else
-       throw("Wrong row number"); // error
-
-
-    if (cl < col_num(co))
        col = cl;
-    else
-       throw("Wrong col number"); // error
+    }
 }
 
 bool position::is_camp()
@@ -99,14 +91,6 @@ bool position::on_rail()
              (row == 0) ||
              (row == 4) ||
              ( (row < 5) && ( (col == 0) || (col == 4) ) )
-           );
-}
-
-bool position::valid()
-{
-    return (
-             (row < (row_num(country))) &&
-             (col < (col_num(country)))
            );
 }
 

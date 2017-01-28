@@ -15,6 +15,18 @@ col_type col_num(country_type country)
     return (country == middle)? 3:5;
 }
 
+bool valid_position(country_type country, row_type row, col_type col)
+{
+    return ( (country != null) &&
+             (row >= 0) &&
+             (col >= 0) &&
+             (row < row_num(country)) &&
+             (col < col_num(country))
+           );
+}
+
+
+
 //
 country_type right_country(country_type country)
 {

@@ -49,6 +49,7 @@ typedef unsigned int int_type; // 0..MAXPOS, NOPOSITION = position_type
 //
 row_type row_num(country_type);
 col_type col_num(country_type);
+bool valid_position(country_type, row_type, col_type);
 
 country_type right_country(country_type);
 country_type  left_country(country_type);

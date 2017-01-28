@@ -4,24 +4,9 @@
 #include "def.h"
 #include "object.h"
 #include "route.h"
+#include "labor.h"
 
 #include <vector>
-#include <algorithm>
-
-//
-
-typedef std::vector <pos_list> branches;
-
-//
-// to test if an element exists in list
-template <typename T> bool member(T element, std::vector <T> list)
-{
-    typename std::vector <T>::iterator ret;
-    ret = std::find(list.begin(), list.end(), element);
-
-    return (ret != list.end());
-
-}
 
 //
 bool test_occupied(board & b, pos_list & route) // test if occupied
@@ -231,8 +216,7 @@ pos_list route_list(board & b, chess_type from_chess, int_type to_code)
     if (from.on_rail() && to.on_rail())
     {
         if (from_chess.is_labor())
-            return route_on_rail(b, from_code, to_code);
-      //    return labor_fly_on_rail(b, from_code, to_code);
+            return labor_fly_on_rail(b, from_code, to_code);
         else
             return route_on_rail(b, from_code, to_code);
     }

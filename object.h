@@ -25,7 +25,6 @@ public:
     bool is_camp();
     bool is_base();
     bool on_rail();
-    bool valid();
 
 };
 

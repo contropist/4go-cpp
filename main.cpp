@@ -101,7 +101,7 @@ void MyMainWindow::click_pos(int_type position_code)
     int_type picked_pos;
 
     pos_list picked_list = b.find(picked_up);
-    unsigned int len = picked_list.size();
+    size_t len = picked_list.size();
 
     if (len > 1)
         throw("picked up more than one chess in click_pos()");
