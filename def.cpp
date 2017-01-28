@@ -23,7 +23,7 @@ country_type right_country(country_type country)
        case down:  return right; break;
        case right: return up;    break;
        case up:    return left;  break;
-       case left:  return down;  break;
+       case left:  return down;  break;        
        default: // error
           throw("Wrong country in calling right_country");
 
@@ -65,6 +65,22 @@ country_type left_country(country_type country, unsigned int i)
         return left_country(left_country(country), i - 1);
     else
         throw("Wrong argument in left_country");
+}
+
+//
+country_type ally_country(country_type country)
+{
+    return right_country(country, 2);
+}
+
+//
+bool is_enemy(country_type country1, country_type country2)
+{
+    if ((country2 == left_country(country1)) ||
+        (country2 == right_country(country1)))
+        return true;
+    else
+        return false;
 }
 
 //

@@ -7,7 +7,6 @@
 
 void draw_all_chesses(board &, QPainter *);
 
-void draw_chess(QPainter * paint,
-                chess_type c);
+void draw_chess(QPainter * paint, chess_type c);
 
 #endif // UTILS_H

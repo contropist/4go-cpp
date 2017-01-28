@@ -17,8 +17,7 @@ void draw_all_chesses(board & b, QPainter * paint)
 }
 
 //
-void draw_chess(QPainter * paint,
-                chess_type c)
+void draw_chess(QPainter * paint, chess_type c)
 {
     position p(c.code);
 

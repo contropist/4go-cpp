@@ -11,6 +11,7 @@
 #include <QPainter>
 #include <QRectF>
 #include <QMouseEvent>
+#include <QMessageBox>
 
 #include <QTime>
 
@@ -46,6 +47,7 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     b.occupy(position(up, 4, 1), 38, up, normal);
     b.occupy(position(down, 1, 2), 33, left, normal);
+    b.occupy(position(down, 3, 2), 37, up, normal);
     b.occupy(position(right, 3, 2), 39, down, normal);
     b.occupy(position(left, 1, 4), 40, right, normal);
     b.occupy(position(middle, 0, 0), 30, down, normal);
@@ -131,6 +133,28 @@ void MyMainWindow::click_pos(int_type position_code)
             draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
 
             b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
+
+       }
+
+       if (accessible && (c.state != empty) &&
+           is_enemy(c.belong_to, picked_chess.belong_to) &&
+           (!p.is_camp())) // fight with it!
+       {
+            int beat = beat_it(picked_chess.rank, c.rank);
+
+            draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
+
+            if (beat >= 0)
+            {
+                b.remove_position(p);
+                if (c.is_flag()) b.delete_belong_to(c.belong_to);
+            }
+
+            if (beat == -1)
+                b.occupy(p, c.rank, c.belong_to, normal);
+
+            if (beat == 1)
+                b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 
        }
     }

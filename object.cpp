@@ -61,7 +61,7 @@ position::position(country_type co, row_type r, col_type cl)
     if (co != null)
         country = co;
     else
-        throw("Wrong country name");
+        throw("Wrong country name"); // error
 
 
     if (r < row_num(co))
