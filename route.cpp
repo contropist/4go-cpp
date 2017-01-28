@@ -38,7 +38,7 @@ bool test_occupied(board & b, pos_list & route) // test if occupied
 }
 
 //
-void merge(pos_list & route0, pos_list new_route)
+void append(pos_list & route0, pos_list new_route)
 {
 
     size_t len = new_route.size();
@@ -77,27 +77,30 @@ bool can_go_out(position p)
 //
 int x_axis(country_type country)
 {
-    switch(country)
-    {
-        case right: return -1; break;
-        case left:  return 1;  break;
-        case down:  return 0;  break;
-        case up:    return 0;  break;
-        default: throw("problem encountered in x_axis()");
-    }
+    return (country == left)?1:((country == right)?-1:0);
 }
 
 int y_axis(country_type country)
 {
-    switch(country)
-    {
-        case down:  return 1;  break;
-        case up:    return -1; break;
-        case right: return 0;  break;
-        case left:  return 0;  break;
-        default: throw("problem encountered in x_axis()");
-    }
+    return (country == down)?1:((country == up)?-1:0);
 }
+
+//
+int_type nearest_middle(position p)
+{
+    position p_nearest(middle, (p.col/2 - 1) * x_axis(p.country) + y_axis(p.country) + 1,
+                               (p.col/2 - 1) * y_axis(p.country) - x_axis(p.country) + 1);
+    return p_nearest.encode();
+}
+
+//
+int_type front_line(position p)
+{
+    position p_front(p.country, 0, p.col);
+
+    return p_front.encode();
+}
+
 
 //
 pos_list route_rail(board & b, int_type from_code, int_type to_code) // without checking occupation
@@ -107,7 +110,6 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
     position to(to_code);
     row_type row;
     col_type col;
-    int_type new_pos, new_pos2;
 
     if (from.country == to.country)
     {
@@ -139,12 +141,8 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
         if (can_go_out(from) && ((to.row - 1) * x_axis(from.country) +
                                  (to.col - 1) * y_axis(from.country) == from.col/2 - 1))
         {
-
-            new_pos = position(middle, (from.col/2 - 1) * x_axis(from.country) + y_axis(from.country) + 1,
-                                       (from.col/2 - 1) * y_axis(from.country) + x_axis(from.country) + 1).encode();
-
-            route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            merge(route, route_rail(b, new_pos, to_code));
+            route = route_rail(b, from_code, front_line(from));
+            append(route, route_rail(b, nearest_middle(from), to_code));
 
         }
     }
@@ -155,14 +153,9 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
     {
         if (can_go_out(from) && can_go_out(to) && (from.col + to.col == 4))
         {
-            new_pos =  position(middle, (from.col/2 - 1) * x_axis(from.country) + y_axis(from.country) + 1,
-                                        (from.col/2 - 1) * y_axis(from.country) + x_axis(from.country) + 1).encode();
-            new_pos2 = position(middle, (from.col/2 - 1) * x_axis(from.country) - y_axis(from.country) + 1,
-                                        (from.col/2 - 1) * y_axis(from.country) - x_axis(from.country) + 1).encode();
-
-            route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            merge(route, route_rail(b, new_pos, new_pos2));
-            merge(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
+            route = route_rail(b, from_code, front_line(from));
+            append(route, route_rail(b, nearest_middle(from), nearest_middle(to)));
+            append(route, route_rail(b, front_line(to), to_code));
         }
     }
     else if (to.country == right_country(from.country))
@@ -170,7 +163,7 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
         if ((from.col == 4) && (from.row <= 4) && (to.col == 0) && (to.row <= 4))
         {
             route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            merge(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
+            append(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
         }
     }
     else if (to.country == left_country(from.country))
@@ -178,7 +171,7 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
         if ((from.col == 0) && (from.row <= 4) && (to.col == 4) && (to.row <= 4))
         {
             route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            merge(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
+            append(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
         }
     }
     else
