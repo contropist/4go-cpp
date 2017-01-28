@@ -162,16 +162,16 @@ pos_list route_rail(board & b, int_type from_code, int_type to_code) // without 
     {
         if ((from.col == 4) && (from.row <= 4) && (to.col == 0) && (to.row <= 4))
         {
-            route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            append(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
+            route = route_rail(b, from_code, front_line(from));
+            append(route, route_rail(b, front_line(to), to_code));
         }
     }
     else if (to.country == left_country(from.country))
     {
         if ((from.col == 0) && (from.row <= 4) && (to.col == 4) && (to.row <= 4))
         {
-            route = route_rail(b, from_code, position(from.country, 0, from.col).encode());
-            append(route, route_rail(b, position(to.country, 0, to.col).encode(), to_code));
+            route = route_rail(b, from_code, front_line(from));
+            append(route, route_rail(b, front_line(to), to_code));
         }
     }
     else
