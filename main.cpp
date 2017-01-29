@@ -32,7 +32,7 @@ player_type player(country_type country)
 {
     switch(country)
     {
-        case down:  return strategy0; break;
+        case down:  return human; break;
         case right:
         case up:
         case left:  return strategy0;
@@ -139,6 +139,7 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     b.init_board();
 
+
 }
 
 MyMainWindow::~MyMainWindow()
@@ -159,6 +160,8 @@ void MyMainWindow::redraw()
         else
             draw_extra(paint, country, player_name(player(country)), normal);
     }
+
+
 }
 
 //
@@ -178,7 +181,13 @@ void MyMainWindow::go_to_next_country()
     b.which_turn ++;
 
     if (b.is_empty(b.which_turn))
+    {
+        if (b.is_empty(ally_country(b.which_turn)))
+        {
+            return;
+        }
         go_to_next_country();
+    }
     else if (player(b.which_turn) != human)
     {
         repaint();
@@ -244,7 +253,10 @@ void MyMainWindow::move_to(int_type from_code, int_type to_code)
         if (beat >= 0)
         {
             b.remove_position(to_code);
-            if (to_chess.is_flag()) b.delete_belong_to(to_chess.belong_to);
+            if (to_chess.is_flag())
+            {
+                b.delete_belong_to(to_chess.belong_to);
+            }
         }
 
         if (beat == -1)
@@ -321,7 +333,10 @@ void MyMainWindow::click_pos(int_type position_code)
             if (beat >= 0)
             {
                 b.remove_position(p);
-                if (c.is_flag()) b.delete_belong_to(c.belong_to);
+                if (c.is_flag())
+                {
+                    b.delete_belong_to(c.belong_to);
+                }
             }
 
             if (beat == -1)
@@ -337,6 +352,28 @@ void MyMainWindow::click_pos(int_type position_code)
     }
 
     repaint();
+}
+
+//
+void MyMainWindow::celebrate(country_type country)
+{
+
+    paint->setFont(QFont("Times", lsize*4));
+
+    switch(country)
+    {
+        case left:
+        case right:
+            paint->drawText(QRectF(QPointF(150, 150), QSizeF(300, 300)), Qt::AlignCenter, "东西胜利");
+        break;
+        case up:
+        case down:
+            paint->drawText(QRectF(QPointF(150, 150), QSizeF(300, 300)), Qt::AlignCenter, "南北胜利");
+        break;
+        default:;
+
+    }
+
 }
 
 

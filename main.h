@@ -42,6 +42,8 @@ public:
     void go_to_next_country();
     void move_to(int_type, int_type);
 
+    void celebrate(country_type);
+
 };
 
 //
