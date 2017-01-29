@@ -196,9 +196,31 @@ float calculate_position_value(board & b, country_type belong_to)
 
             sum += sign/10 * position_score(my_chess.rank) *
                              position_value(position(my_pos).row, position(my_pos).col, flag_col);
+
+            if (is_enemy(my_chess.belong_to, belong_to))
+            {
+                for(row_type row = 0; row < row_num(belong_to); row ++)
+                for(col_type col = 0; col < col_num(belong_to); col ++)
+                {
+                    position pp(belong_to, row, col);
+                    pos_list move_list = route_list(b, my_chess, pp.encode());
+                    bool accessible = (move_list.size() > 1);
+
+                    if (accessible)
+                        if ((!b.is_occupied(pp)) ||
+                            ((b.is_occupied(pp)) &&
+                             (is_enemy(my_chess.belong_to, b.find_chess(pp).belong_to)) &&
+                             (beat_it(my_chess.rank, b.find_chess(pp).rank) == 1)
+                            ))
+
+                        sum -= -2.0/8 * position_score(my_chess.rank) *
+                                        position_value(row, col, flag_col);
+                }
+            }
         }
 
     }
+
 
     return sum;
 

@@ -14,7 +14,7 @@
 #define loop0(i) for (int_type i = 0; i < MAXPOS0; i ++) // without middle country
 
 #define for_country(country, i) unsigned int i; country_type country = down; for(i = 0; i < 4; country ++, i ++)
-#define for_int(i, num) for(int_type i = 0; i < num; i ++)
+#define for_int(i, num) for(size_t i = 0; i < num; i ++)
 //
 
 
