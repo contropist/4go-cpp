@@ -15,6 +15,29 @@
 
 #include <QTime>
 
+QString player_name(player_type p)
+{
+    switch(p)
+    {
+        case human: return "人类";
+        case strategy0: return "ST0";
+        case strategy1: return "ST1";
+        default: return "未知";
+    }
+}
+
+player_type player(country_type country)
+{
+    switch(country)
+    {
+        case down:  return human; break;
+        case right:
+        case up:
+        case left:  return strategy0;
+        default: throw("problem encountered in player()");
+    }
+}
+
 void MyMainWindow::paintEvent(QPaintEvent *)
 {
 
@@ -127,6 +150,32 @@ void MyMainWindow::redraw()
 {
     draw_board(paint);
     draw_all_chesses(b, paint);
+
+    for_country(country, counter)
+    {
+        if (b.which_turn == country)
+            draw_extra(paint, country, "该走", extra);
+        else
+            draw_extra(paint, country, player_name(player(country)), normal);
+    }
+}
+
+//
+void MyMainWindow::go_to_next_country()
+{
+
+    b.which_turn ++;
+
+    if (b.is_empty(b.which_turn))
+        go_to_next_country();
+    else if (player(b.which_turn) != human)
+    {
+        /*re_draw();
+        computer_run(which_turn, player(which_turn));
+
+        go_to_next_country();
+    */;
+    }
 }
 
 //
@@ -173,8 +222,8 @@ void MyMainWindow::click_pos(int_type position_code)
         picked_pos = NOPOSITION;
 
     if ((picked_pos == NOPOSITION) && (c.state != empty))
-    //      (b.which_turn == c.belong_to) &&
-        if ((c.movable()) && (!p.is_base()))
+        if (b.which_turn == c.belong_to)
+          if ((c.movable()) && (!p.is_base()))
 
             b.change_state(p, picked_up);
 
@@ -196,6 +245,7 @@ void MyMainWindow::click_pos(int_type position_code)
 
             b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 
+            go_to_next_country();
        }
 
        if (accessible && (c.state != empty) &&
@@ -218,6 +268,7 @@ void MyMainWindow::click_pos(int_type position_code)
             if (beat == 1)
                 b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 
+            go_to_next_country();
        }
     }
 

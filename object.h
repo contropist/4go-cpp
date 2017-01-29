@@ -39,7 +39,7 @@ public:
     int_type code;
 
     chess_type();
-    chess_type(rank_type, country_type, state_type, int);
+    chess_type(rank_type, country_type, state_type, int_type);
     void set_empty(int c);
     bool is_labor();
     bool is_flag();

@@ -58,7 +58,9 @@ position::position(int_type code)
 
 position::position(country_type c, row_type r, col_type cl)
 {
-    if (!valid_position(c, r, cl))
+    if (!valid_position(c, r, cl) &&
+            !((r == 5) && (cl == 5)) ) // to allow extra flag out of boundary
+
         throw("Invalid arguments for position::position()"); // error
     else
     {
@@ -103,7 +105,7 @@ chess_type::chess_type()
     set_empty(0);
 }
 
-chess_type::chess_type(rank_type r, country_type b, state_type s, int c)
+chess_type::chess_type(rank_type r, country_type b, state_type s, int_type c)
 {
     rank = r;
     belong_to = b;

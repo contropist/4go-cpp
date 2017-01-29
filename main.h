@@ -8,6 +8,15 @@
 //
 
 //
+typedef enum {
+    human,
+    strategy0,
+    strategy1
+
+} player_type;
+
+
+//
 class MyMainWindow: public QWidget
 {
 
@@ -27,6 +36,8 @@ public:
     void redraw();
     void click_pos(int_type);
     void draw_route(pos_list, rank_type, country_type, float);
+
+    void go_to_next_country();
 
 };
 

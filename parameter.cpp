@@ -111,10 +111,10 @@ structxy get_top_left_corner(position p)
     switch (p.country)
     {
        case middle:
-       case down:  return coordinatexy(p, 0.0, 0.0); break;
-       case right: return coordinatexy(p, 1.0, 0.0); break;
-       case up:    return coordinatexy(p, 1.0, 1.0); break;
-       case left:  return coordinatexy(p, 0.0, 1.0); break;
+       case down:  return coordinatexy(p, 0, 0); break;
+       case right: return coordinatexy(p, 1, 0); break;
+       case up:    return coordinatexy(p, 1, 1); break;
+       case left:  return coordinatexy(p, 0, 1); break;
        default: // error
           throw("Wrong country in calling right_country");
     }
