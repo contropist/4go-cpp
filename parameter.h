@@ -22,7 +22,13 @@ constexpr float margin2 = lsize*9.0/10;
 constexpr float frame_size = margin0 + margin1 + margin2*2
                         + arena_height*2 + arena_width;
 
-constexpr int corner = 22; // corner size for draw rounded rectangle
+constexpr unsigned int corner = 22; // corner size for draw rounded rectangle
+
+constexpr unsigned int whole_rank_size = 25;
+constexpr rank_type whole_rank_set[] = {10, 100, 100, 100, 0, 0,
+                                        30, 30, 30, 40, 39, 38, 38,
+                                        37, 37, 36, 36, 35, 35,
+                                        34, 34, 34, 33, 33, 33};
 
 
 // define structure of coordinates

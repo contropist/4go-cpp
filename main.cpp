@@ -36,6 +36,74 @@ void MyMainWindow::mousePressEvent(QMouseEvent * event)
     }
 }
 
+bool board::forbidden(rank_type rank, country_type country, row_type row, col_type col)
+{
+    position p(country, row, col);
+
+    if ((rank == 10) && !p.is_base())
+        return true;
+
+    if (p.is_base() && !((rank == 10) || (rank == 100) || (rank == 33)))
+        return true;
+
+    if ((rank == 100) && (row <= 3))
+        return true;
+
+    if ((rank == 0) && (row == 0))
+        return true;
+
+    if ((rank == 100) && (row == 4) && (col % 2 == 0))
+    {
+        rank_type its_rank = find_chess(position(country, 5, col)).rank;
+        if ((its_rank == 40) || (its_rank == 39) || (its_rank == 38) || (its_rank == 0))
+            return true;
+    }
+
+    if ((row == 5) && (col % 2 == 0) &&
+        ((rank == 40) || (rank == 39) || (rank == 38) || (rank == 0)))
+    {
+        rank_type its_rank = find_chess(position(country, 4, col)).rank;
+        if (its_rank == 100)
+            return true;
+    }
+
+    return false;
+}
+
+void board::init_board()
+{
+    QTime time;
+    time= QTime::currentTime();
+    qsrand(time.msec()+time.second()*1000);
+
+    country_type country;
+    rank_type rank;
+    row_type row;
+    col_type col;
+
+    for_country(belong_to, counter)
+    {
+        for_int(whole_rank_size, i)
+        {
+            country = belong_to;
+            rank = whole_rank_set[i];
+
+            do
+            {
+                row = qrand() % row_num(belong_to);
+                col = qrand() % col_num(belong_to);
+
+            } while (is_occupied(position(country, row, col)) ||
+                     position(country, row, col).is_camp() ||
+                     forbidden(rank, country, row, col));
+
+            occupy(position(country, row, col), rank, belong_to, normal);
+
+        }
+    }
+
+}
+
 MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 {
     setGeometry(40, 40, frame_size, frame_size);
@@ -45,13 +113,7 @@ MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
 
     paint = new QPainter;
 
-    b.occupy(position(up, 4, 1), 38, up, normal);
-    b.occupy(position(down, 1, 2), 33, left, normal);
-    b.occupy(position(down, 3, 2), 37, up, normal);
-    b.occupy(position(right, 3, 2), 39, down, normal);
-    b.occupy(position(left, 1, 4), 40, right, normal);
-    b.occupy(position(middle, 0, 0), 30, down, normal);
-
+    b.init_board();
 
 }
 

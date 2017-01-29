@@ -60,6 +60,9 @@ public:
     country_type which_turn;
 
     board();
+    void init_board();
+    bool forbidden(rank_type, country_type, row_type, col_type);
+
     void occupy(int_type, rank_type, country_type, state_type);
     void occupy(position, rank_type, country_type, state_type);
     void remove_position(int_type);
