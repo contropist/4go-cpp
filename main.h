@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include "object.h"
+#include "def.h"
 
 //
 #include <QWidget>
@@ -29,6 +30,7 @@ private:
 
     board b;
 
+
 public:
     MyMainWindow(QWidget * parent = 0);
     ~MyMainWindow();
@@ -38,6 +40,7 @@ public:
     void draw_route(pos_list, rank_type, country_type, float);
 
     void go_to_next_country();
+    void move_to(int_type, int_type);
 
 };
 

@@ -75,7 +75,8 @@ public:
     bool is_empty(country_type); // according to belong_to
 
     pos_list find(state_type);
-    pos_list find(rank_type);
+    pos_list find_rank(rank_type);
+    pos_list find_rank(rank_type, pos_list);
     pos_list find(country_type); // according to belong_to
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);

@@ -232,7 +232,7 @@ pos_list board::find(state_type st)
     return l;
 }
 
-pos_list board::find(rank_type r)
+pos_list board::find_rank(rank_type r)
 {
     pos_list l;
 
@@ -244,6 +244,22 @@ pos_list board::find(rank_type r)
 
     return l;
 }
+
+pos_list board::find_rank(rank_type r, pos_list search_scope)
+{
+    pos_list l;
+
+    for_int(k, search_scope.size())
+    {
+        int_type i = search_scope[k];
+
+        if (chesses[i].rank == r)
+            l.push_back(i);
+    }
+
+    return l;
+}
+
 
 pos_list board::find(country_type belong_to)
 {

@@ -14,7 +14,7 @@
 #define loop0(i) for (int_type i = 0; i < MAXPOS0; i ++) // without middle country
 
 #define for_country(country, i) unsigned int i; country_type country = down; for(i = 0; i < 4; country ++, i ++)
-#define for_int(num, i) for(unsigned int i = 0; i < num; i ++)
+#define for_int(i, num) for(int_type i = 0; i < num; i ++)
 //
 
 
@@ -39,6 +39,7 @@ typedef enum {
     empty
 } state_type;
 
+
 typedef int row_type; // 0, 1, 2, 3, 4, 5
 typedef int col_type; // 0, 1, 2, 3, 4
 // it is better to use int instead of unsigned int for row_type and col_type
@@ -46,6 +47,13 @@ typedef int col_type; // 0, 1, 2, 3, 4
 
 typedef unsigned int rank_type; // 40, 39, 38, 37, 36, 35, 34, 33, 30, 100, 10, 0, NORANK
 typedef unsigned int int_type; // 0..MAXPOS, NOPOSITION = position_type
+
+//
+typedef struct {
+    int_type from;
+    int_type to;
+} move_type;
+
 
 //
 // functions

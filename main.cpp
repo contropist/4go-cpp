@@ -7,6 +7,8 @@
 #include "utils.h"
 #include "route.h"
 
+#include "strategy0.h"
+
 #include <QApplication>
 #include <QPainter>
 #include <QRectF>
@@ -30,7 +32,7 @@ player_type player(country_type country)
 {
     switch(country)
     {
-        case down:  return human; break;
+        case down:  return strategy0; break;
         case right:
         case up:
         case left:  return strategy0;
@@ -54,7 +56,6 @@ void MyMainWindow::mousePressEvent(QMouseEvent * event)
         if (position_code != NOPOSITION)
         {
             click_pos(position_code);
-            repaint();
         }
     }
 }
@@ -106,7 +107,7 @@ void board::init_board()
 
     for_country(belong_to, counter)
     {
-        for_int(whole_rank_size, i)
+        for_int(i, whole_rank_size)
         {
             country = belong_to;
             rank = whole_rank_set[i];
@@ -161,20 +162,31 @@ void MyMainWindow::redraw()
 }
 
 //
+move_type computer_run(board & b, country_type country, player_type pl)
+{
+    switch(pl)
+    {
+        case strategy0: return run_strategy0(b, country);
+       // case strategy1: return;
+        default: throw("Wrong strategy name!");
+    }
+}
+
+//
 void MyMainWindow::go_to_next_country()
 {
-
     b.which_turn ++;
 
     if (b.is_empty(b.which_turn))
         go_to_next_country();
     else if (player(b.which_turn) != human)
     {
-        /*re_draw();
-        computer_run(which_turn, player(which_turn));
+        repaint();
+        move_type move = computer_run(b, b.which_turn, player(b.which_turn));
 
+        move_to(move.from, move.to);
         go_to_next_country();
-    */;
+
     }
 }
 
@@ -200,11 +212,59 @@ void MyMainWindow::draw_route(pos_list move_list,
     }
 }
 
+
+//
+void MyMainWindow::move_to(int_type from_code, int_type to_code)
+{
+    position from(from_code);
+    position to(to_code);
+
+    chess_type from_chess = b.find_chess(from);
+    chess_type to_chess = b.find_chess(to);
+
+    pos_list move_list = route_list(b, from_chess, to_code);
+    bool accessible = (move_list.size() > 1);
+
+    if (accessible && !b.is_occupied(to_code))
+    {
+        draw_route(move_list, from_chess.rank, from_chess.belong_to, 1.0);
+
+        b.occupy(to_code, from_chess.rank, from_chess.belong_to, normal);
+    }
+
+    if (accessible && (to_chess.state != empty) &&
+            b.is_occupied(to_code) && is_enemy(from_chess.belong_to, to_chess.belong_to) &&
+            !to.is_camp()
+       )
+    {
+        int beat = beat_it(from_chess.rank, to_chess.rank);
+
+        draw_route(move_list, from_chess.rank, from_chess.belong_to, 1.0);
+
+        if (beat >= 0)
+        {
+            b.remove_position(to_code);
+            if (to_chess.is_flag()) b.delete_belong_to(to_chess.belong_to);
+        }
+
+        if (beat == -1)
+            b.occupy(to_code, to_chess.rank, to_chess.belong_to, normal);
+
+        if (beat == 1)
+            b.occupy(to_code, from_chess.rank, from_chess.belong_to, normal);
+
+    }
+
+
+}
+
 //
 void MyMainWindow::click_pos(int_type position_code)
 {
+    static bool just_start = true;
 
     if (position_code == NOPOSITION) return;
+    if (!just_start && (player(b.which_turn) != human)) return;
 
     position p(position_code);
     chess_type c = b.find_chess(p);
@@ -245,6 +305,8 @@ void MyMainWindow::click_pos(int_type position_code)
 
             b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 
+            just_start = false;
+
             go_to_next_country();
        }
 
@@ -268,10 +330,13 @@ void MyMainWindow::click_pos(int_type position_code)
             if (beat == 1)
                 b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
 
+            just_start = false;
+
             go_to_next_country();
        }
     }
 
+    repaint();
 }
 
 
