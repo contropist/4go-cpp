@@ -8,6 +8,7 @@
 #include "route.h"
 
 #include "strategy0.h"
+#include "strategy1.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -35,7 +36,7 @@ player_type player(country_type country)
         case down:  return human; break;
         case right:
         case up:
-        case left:  return strategy0;
+        case left:  return strategy1;
         default: throw("problem encountered in player()");
     }
 }
@@ -170,7 +171,7 @@ move_type computer_run(board & b, country_type country, player_type pl)
     switch(pl)
     {
         case strategy0: return run_strategy0(b, country);
-       // case strategy1: return;
+        case strategy1: return run_strategy1(b, country);
         default: throw("Wrong strategy name!");
     }
 }

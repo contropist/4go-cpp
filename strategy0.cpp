@@ -7,7 +7,7 @@
 #include "route.h"
 //
 
-int score(rank_type rank)
+int score_0(rank_type rank)
 {
     switch(rank)
     {
@@ -26,7 +26,7 @@ int score(rank_type rank)
 }
 
 //
-bool under_attack(board & b, chess_type chess)
+bool under_attack_0(board & b, chess_type chess)
 {
     position pos(chess.code);
 
@@ -69,7 +69,7 @@ void extra_score(board & b, int & sum, country_type belong_to, row_type e_row, c
 }
 
 //
-int calculate_value(board & b, country_type belong_to)
+int calculate_value_0(board & b, country_type belong_to)
 {
     pos_list all_chess = b.find(belong_to);
     int sum = 0;
@@ -81,7 +81,7 @@ int calculate_value(board & b, country_type belong_to)
         int_type pos = all_chess[i];
         chess_type chess = b.find_chess(pos);
 
-        sum += score(chess.rank);
+        sum += score_0(chess.rank);
 
         if (position(pos).is_camp()) sum ++;
     }
@@ -114,7 +114,7 @@ move_type run_strategy0(board & b, country_type belong_to)
 {
     pos_list whole_list = b.find(belong_to);
     float max_value = -10000;
-    float ratio = (score(39) + score(38))/(2 * score(40));
+    float ratio = (score_0(39) + score_0(38))/(2 * score_0(40));
     move_type one_move;
 
     for_int(i, whole_list.size())
@@ -164,14 +164,14 @@ move_type run_strategy0(board & b, country_type belong_to)
                             default: ;
                         }
 
-                    float value = calculate_value(b2, belong_to) +
-                                  calculate_value(b2, ally_country(belong_to)) -
-                                  calculate_value(b2, left_country(belong_to)) -
-                                  calculate_value(b2, right_country(belong_to));
+                    float value = calculate_value_0(b2, belong_to) +
+                                  calculate_value_0(b2, ally_country(belong_to)) -
+                                  calculate_value_0(b2, left_country(belong_to)) -
+                                  calculate_value_0(b2, right_country(belong_to));
 
-                    if (under_attack(b2, b2.find_chess(d_code)))
+                    if (under_attack_0(b2, b2.find_chess(d_code)))
 
-                        value -= ratio * score(s_chess.rank);
+                        value -= ratio * score_0(s_chess.rank);
 
                     value += qrand() % 5;
 
