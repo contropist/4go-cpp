@@ -24,6 +24,7 @@ QString player_name(player_type p)
         case human: return "人类";
         case strategy0: return "ST0";
         case strategy1: return "ST1";
+        case strategy2: return "ST2";
         default: return "未知";
     }
 }
@@ -105,7 +106,7 @@ void board::init_board()
     row_type row;
     col_type col;
 
-    bool debug = !false;
+    bool debug = false;
 
     if (debug)
     {

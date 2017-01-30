@@ -151,72 +151,59 @@ int position_value(position pos, col_type flag_col)
 
 
 
+
 //
- float calculate_value(board & b, country_type belong_to)
- {
-     pos_list all_chess = b.find_belong_to(belong_to);
-     float sum = 0;
+float calculate_board(board & b, country_type now_turn)
+{
+    float sum = 1000.0, coefficient = 1.0, pos_coefficient = 0.0;
+    col_type flag_col = 0;
 
-     if (b.is_empty(belong_to)) return 0;
+    loop(i)
+    {
+        position pos(i);
 
-     for_int(i, all_chess.size())
-     {
-         int_type pos = all_chess[i];
+        chess_type chess = b.find_chess(pos);
+        if (chess.state == empty) continue;
 
-         chess_type chess = b.find_chess(pos);
+        if (is_enemy(chess.belong_to, now_turn))
+        {
+            coefficient = -1.0;
+        }
+        else if (chess.belong_to == now_turn)
+        {
+            coefficient = 1.0;
+        }
+        else
+        {
+            coefficient = 1.0;
+        }
 
-         sum += score(chess.rank);
+        if (is_enemy(chess.belong_to, pos.country))
+            coefficient *= 1.5;
 
-         sum += ratio * under_attack(b, chess);
-     }
+        if (pos.country != middle)
+        {
 
-     return sum;
- }
+            if (b.find_chess(position(pos.country, 5, 1)).is_flag())
+                flag_col = 1;
+            else if (b.find_chess(position(pos.country, 5, 3)).is_flag())
+                flag_col = 3;
+            else
+                flag_col = 0;
 
- //
- float calculate_position_value(board & b, country_type belong_to)
- {
-     pos_list all_chess = b.find_belong_to(belong_to);
-     float sum = 0;
-     col_type flag_col;
+            if (flag_col != 0)
+                pos_coefficient = 1/10 * position_score(chess.rank) * position_value(pos, flag_col);
+            else
+                pos_coefficient = 0.0;
+        }
 
-     if (b.is_empty(belong_to)) return 0;
+        sum += (score(chess.rank) + ratio * under_attack(b, chess))
+                * coefficient
+                + pos_coefficient; // * pos_coefficient;
+    }
 
-     if (b.find_chess(position(belong_to, 5, 1)).is_flag())
-
-         flag_col = 1;
-
-     else if (b.find_chess(position(belong_to, 5, 3)).is_flag())
-
-         flag_col = 3;
-
-     else
-
-         flag_col = 0;
-
-     pos_list my_all_chess = b.find_country(belong_to);
-
-     for_int(i, my_all_chess.size())
-     {
-         int_type my_pos = my_all_chess[i];
-
-         chess_type my_chess = b.find_chess(my_pos);
-
-         if (my_chess.state != empty)
-         {
-             float sign = (is_enemy(my_chess.belong_to, belong_to))?-1:2/5;
-
-             sum += sign/10 * position_score(my_chess.rank) *
-                              position_value(position(my_pos), flag_col);
-         }
-
-     }
-
-     return sum;
-
- }
-
-
+    return sum;
+}
 
 //
 //
@@ -252,11 +239,7 @@ move_type run_strategy1(board & b, country_type belong_to)
 
                         b2.go_to(s_chess, d_chess);
 
-                        value = calculate_value(b2, belong_to)
-                              + calculate_position_value(b2, belong_to)
-                              + calculate_value(b2, ally_country(belong_to))
-                              - calculate_value(b2, right_country(belong_to))
-                              - calculate_value(b2, left_country(belong_to));
+                        value = calculate_board(b2, belong_to);
 
                         value += qrand() % 5;
 
