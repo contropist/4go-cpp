@@ -40,6 +40,8 @@ public:
 
     chess_type();
     chess_type(rank_type, country_type, state_type, int_type);
+
+    bool is_empty();
     void set_empty(int c);
     bool is_labor();
     bool is_flag();
@@ -71,13 +73,19 @@ public:
     void change_state(position, state_type);
     bool is_occupied(int_type);
     bool is_occupied(position);
-    void delete_belong_to(country_type); // according to belong_to
     bool is_empty(country_type); // according to belong_to
 
-    pos_list find(state_type);
+    bool go_able(chess_type, position);
+    bool cannot_move(country_type); // according to belong_to
+
+    void delete_belong_to(country_type); // according to belong_to
+    void go_to(chess_type, chess_type);
+
+
+    pos_list find_state(state_type);
     pos_list find_rank(rank_type);
     pos_list find_rank(rank_type, pos_list);
-    pos_list find(country_type); // according to belong_to
+    pos_list find_belong_to(country_type); // according to belong_to
     pos_list find_allies(country_type); // according to belong_to
     pos_list find_country(country_type);
     chess_type find_chess(int_type);

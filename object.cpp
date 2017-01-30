@@ -4,6 +4,7 @@
 #include "object.h"
 #include "def.h"
 #include "drawchess.h"
+#include "route.h"
 
 //
 // position
@@ -121,6 +122,11 @@ void chess_type::set_empty(int c)
     code = c;
 }
 
+bool chess_type::is_empty()
+{
+    return (state == empty);
+}
+
 bool chess_type::is_labor()
 {
     return (rank == 30);
@@ -191,7 +197,7 @@ void board::change_state(position p, state_type new_state)
 
 bool board::is_occupied(int_type position_code)
 {
-    return (chesses[position_code].state != empty);
+    return !chesses[position_code].is_empty();
 }
 
 bool board::is_occupied(position p)
@@ -219,7 +225,7 @@ bool board::is_empty(country_type belong_to) // according to belong_to
     return true;
 }
 
-pos_list board::find(state_type st)
+pos_list board::find_state(state_type st)
 {
     pos_list l;
 
@@ -261,7 +267,7 @@ pos_list board::find_rank(rank_type r, pos_list search_scope)
 }
 
 
-pos_list board::find(country_type belong_to)
+pos_list board::find_belong_to(country_type belong_to)
 {
     pos_list l;
 
@@ -312,6 +318,82 @@ chess_type board::find_chess(int_type position_code)
 chess_type board::find_chess(position p)
 {
     return find_chess(p.encode());
+}
+
+bool board::go_able(chess_type chess1, position pos2)
+{
+    if (!is_occupied(pos2)) return true;
+
+    chess_type chess2 = find_chess(pos2);
+
+    if (is_enemy(chess1.belong_to, chess2.belong_to) &&
+        (!pos2.is_camp()))
+        return true;
+
+    return false;
+
+}
+
+bool board::cannot_move(country_type belong_to)
+{
+
+    pos_list all_chesses = find_belong_to(belong_to);
+
+    size_t len = all_chesses.size();
+    for(size_t i = 0; i < len; i ++)
+    {
+        int_type s_code = all_chesses[i];
+        position s_pos(s_code);
+        chess_type s_chess = find_chess(s_code);
+
+        if (!s_chess.movable() || s_pos.is_base()) continue;
+
+        loop(possible_position)
+        {
+            position p_pos(possible_position);
+
+            if (!go_able(s_chess, p_pos)) continue;
+
+            pos_list move_list = route_list(*this, s_chess, possible_position);
+            if (move_list.size() > 1) return false;
+        }
+    }
+
+    return true;
+}
+
+void board::go_to(chess_type chess1, chess_type chess2)
+{
+    int beat;
+
+    if (chess2.is_empty()) // empty position
+    {
+         occupy(chess2.code, chess1.rank, chess1.belong_to, normal);
+    }
+
+    else
+    {
+        beat = beat_it(chess1.rank, chess2.rank);
+
+        remove_position(chess2.code);
+
+        if (beat == -1)
+            occupy(chess2.code, chess2.rank, chess2.belong_to, normal);
+
+        if (beat >= 0)
+            if (chess2.is_flag())
+                    delete_belong_to(chess2.belong_to);
+
+        if (beat == 1)
+            occupy(chess2.code, chess1.rank, chess1.belong_to, normal);
+    }
+
+    // erase the original position
+    if (!chess1.is_empty())
+    {
+        remove_position(chess1.code);
+    }
+
 }
 
 

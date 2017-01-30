@@ -7,7 +7,6 @@
 #include "utils.h"
 #include "route.h"
 
-#include "strategy0.h"
 #include "strategy1.h"
 
 #include <QApplication>
@@ -106,28 +105,37 @@ void board::init_board()
     row_type row;
     col_type col;
 
-    bool debug = false;
+    bool debug = !false;
 
     if (debug)
     {
         occupy(position(down, 5, 1), 10, down, normal);
         occupy(position(up, 5, 1), 10, up, normal);
-//        occupy(position(left, 5, 1), 10, left, normal);
+        occupy(position(left, 5, 1), 10, left, normal);
         occupy(position(right, 5, 1), 10, right, normal);
 
-        occupy(position(up, 5, 0), 100, up, normal);
-        occupy(position(up, 5, 2), 100, up, normal);
-        occupy(position(up, 4, 1), 33, up, normal);
-        occupy(position(up, 3, 1), 0, up, normal);
+        occupy(position(up, 5, 0), 33, up, normal);
+        occupy(position(up, 5, 2), 33, up, normal);
+
+        occupy(position(up, 4, 0), 33, up, normal);
+
+        occupy(position(up, 4, 1), 100, up, normal);
+        occupy(position(up, 3, 1), 40, up, normal);
         occupy(position(down, 1, 1), 33, up, normal);
 
         occupy(position(down, 5, 0), 100, down, normal);
         occupy(position(down, 5, 2), 100, down, normal);
         occupy(position(down, 4, 1), 100, down, normal);
-        occupy(position(down, 3, 1), 34, down, normal);
+        occupy(position(down, 3, 1), 35, down, normal);
 
-        occupy(position(right, 0, 4), 34, right, normal);
+        occupy(position(right, 0, 4), 39, right, normal);
         occupy(position(right, 2, 2), 34, right, normal);
+        occupy(position(right, 4, 0), 100, right, normal);
+        occupy(position(right, 4, 2), 37, right, normal);
+
+        occupy(position(left, 5, 0), 38, left, normal);
+        occupy(position(left, 4, 0), 100, left, normal);
+        occupy(position(left, 4, 2), 33, left, normal);
 
     }
 
@@ -197,7 +205,7 @@ move_type computer_run(board & b, country_type country, player_type pl)
 {
     switch(pl)
     {
-        case strategy0: return run_strategy0(b, country);
+//        case strategy0: return run_strategy0(b, country);
         case strategy1: return run_strategy1(b, country);
         default: throw("Wrong strategy name!");
     }
@@ -207,6 +215,9 @@ move_type computer_run(board & b, country_type country, player_type pl)
 void MyMainWindow::go_to_next_country()
 {
     b.which_turn ++;
+
+    if (b.cannot_move(b.which_turn))
+        b.delete_belong_to(b.which_turn); // important
 
     if (b.is_empty(b.which_turn))
     {
@@ -262,39 +273,13 @@ void MyMainWindow::move_to(int_type from_code, int_type to_code)
     pos_list move_list = route_list(b, from_chess, to_code);
     bool accessible = (move_list.size() > 1);
 
-    if (accessible && !b.is_occupied(to_code))
-    {
-        draw_route(move_list, from_chess.rank, from_chess.belong_to, 1.0);
-
-        b.occupy(to_code, from_chess.rank, from_chess.belong_to, normal);
-    }
-
-    if (accessible && (to_chess.state != empty) &&
-            b.is_occupied(to_code) && is_enemy(from_chess.belong_to, to_chess.belong_to) &&
-            !to.is_camp()
-       )
-    {
-        int beat = beat_it(from_chess.rank, to_chess.rank);
-
-        draw_route(move_list, from_chess.rank, from_chess.belong_to, 1.0);
-
-        if (beat >= 0)
+    if (accessible)
+        if (b.go_able(from_chess, to))
         {
-            b.remove_position(to_code);
-            if (to_chess.is_flag())
-            {
-                b.delete_belong_to(to_chess.belong_to);
-            }
+            draw_route(move_list, from_chess.rank, from_chess.belong_to, 1.0);
+
+            b.go_to(from_chess, to_chess);
         }
-
-        if (beat == -1)
-            b.occupy(to_code, to_chess.rank, to_chess.belong_to, normal);
-
-        if (beat == 1)
-            b.occupy(to_code, from_chess.rank, from_chess.belong_to, normal);
-
-    }
-
 
 }
 
@@ -311,7 +296,7 @@ void MyMainWindow::click_pos(int_type position_code)
 
     int_type picked_pos;
 
-    pos_list picked_list = b.find(picked_up);
+    pos_list picked_list = b.find_state(picked_up);
     size_t len = picked_list.size();
 
     if (len > 1)
@@ -339,44 +324,19 @@ void MyMainWindow::click_pos(int_type position_code)
             b.change_state(picked_pos, normal);
        }
 
-       if (accessible && (c.state == empty)) // empty position
+       else if (b.go_able(picked_chess, p))
        {
-            draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
 
-            b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
+           draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
 
-            just_start = false;
+           b.go_to(picked_chess, c);
 
-            go_to_next_country();
+           just_start = false;
+
+           go_to_next_country();
+
        }
 
-       if (accessible && (c.state != empty) &&
-           is_enemy(c.belong_to, picked_chess.belong_to) &&
-           (!p.is_camp())) // fight with it!
-       {
-            int beat = beat_it(picked_chess.rank, c.rank);
-
-            draw_route(move_list, picked_chess.rank, picked_chess.belong_to);
-
-            if (beat >= 0)
-            {
-                b.remove_position(p);
-                if (c.is_flag())
-                {
-                    b.delete_belong_to(c.belong_to);
-                }
-            }
-
-            if (beat == -1)
-                b.occupy(p, c.rank, c.belong_to, normal);
-
-            if (beat == 1)
-                b.occupy(p, picked_chess.rank, picked_chess.belong_to, normal);
-
-            just_start = false;
-
-            go_to_next_country();
-       }
     }
 
     repaint();
