@@ -88,6 +88,9 @@ country_type ally_country(country_type country)
 //
 bool is_enemy(country_type country1, country_type country2)
 {
+    if ((country1 == middle) || (country2 == middle))
+        return false;
+
     if ((country2 == left_country(country1)) ||
         (country2 == right_country(country1)))
         return true;
