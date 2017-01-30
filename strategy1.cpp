@@ -182,6 +182,33 @@ float calculate_value(board & b, country_type belong_to)
         sum += score(chess.rank) * coefficient * pos_coefficient;
 
         sum += ratio * under_attack(b, chess) * coefficient * pos_coefficient;
+
+    }
+
+    col_type my_flag_col;
+
+    if (b.find_chess(position(belong_to, 5, 1)).is_flag())
+        my_flag_col = 1;
+    else
+        my_flag_col = 3;
+
+    for (int nn = -1; nn <= 1; nn += 2)
+    {
+        chess_type close_chess = b.find_chess(position(belong_to, 4, my_flag_col + nn));
+        if (close_chess.state != empty)
+        if (is_enemy(close_chess.belong_to, belong_to) && (under_attack(b, close_chess) >= 0))
+        {
+            position end_p(belong_to, 5, my_flag_col + nn);
+
+            if ((!b.is_occupied(end_p)) ||
+                (is_enemy(close_chess.belong_to, b.find_chess(end_p).belong_to) &&
+                 (beat_it(close_chess.rank, b.find_chess(end_p).rank) == 1)))
+            {
+                    sum -= 100;
+                    break;
+            }
+
+        }
     }
 
     return sum;
@@ -246,7 +273,6 @@ move_type run_strategy1(board &b, country_type belong_to)
                                     {
                                         b2.delete_belong_to(d_chess.belong_to);
                                     }
-                                    break;
                                     break;
                             default: ;
                         }

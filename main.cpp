@@ -106,6 +106,33 @@ void board::init_board()
     row_type row;
     col_type col;
 
+    bool debug = false;
+
+    if (debug)
+    {
+        occupy(position(down, 5, 1), 10, down, normal);
+        occupy(position(up, 5, 1), 10, up, normal);
+//        occupy(position(left, 5, 1), 10, left, normal);
+        occupy(position(right, 5, 1), 10, right, normal);
+
+        occupy(position(up, 5, 0), 100, up, normal);
+        occupy(position(up, 5, 2), 100, up, normal);
+        occupy(position(up, 4, 1), 33, up, normal);
+        occupy(position(up, 3, 1), 0, up, normal);
+        occupy(position(down, 1, 1), 33, up, normal);
+
+        occupy(position(down, 5, 0), 100, down, normal);
+        occupy(position(down, 5, 2), 100, down, normal);
+        occupy(position(down, 4, 1), 100, down, normal);
+        occupy(position(down, 3, 1), 34, down, normal);
+
+        occupy(position(right, 0, 4), 34, right, normal);
+        occupy(position(right, 2, 2), 34, right, normal);
+
+    }
+
+    else
+    {
     for_country(belong_to, counter)
     {
         for_int(i, whole_rank_size)
@@ -126,7 +153,7 @@ void board::init_board()
 
         }
     }
-
+    }
 }
 
 MyMainWindow::MyMainWindow(QWidget *parent):QWidget(parent)
