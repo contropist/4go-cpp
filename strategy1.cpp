@@ -150,6 +150,7 @@ float calculate_value(board & b, country_type belong_to)
 {
     pos_list all_chess = b.find(belong_to);
     float sum = 0, coefficient = 1.0, pos_coefficient = 1.0;
+    col_type flag_col;
 
     if (b.is_empty(belong_to)) return 0;
 
@@ -169,10 +170,10 @@ float calculate_value(board & b, country_type belong_to)
 
         if ((!b.is_empty(pos.country)) && (pos.country != middle))
         {
-            pos_list the_chesses = b.find(pos.country);
-            pos_list flag_list = b.find_rank(10, the_chesses);
-            int_type flag = flag_list[0];
-            col_type flag_col = position(flag).col;
+            if (b.find_chess(position(pos.country, 5, 1)).is_flag())
+                flag_col = 1;
+            else
+                flag_col = 3;
 
             pos_coefficient = 1.0 + (position_value(pos.row, pos.col, flag_col) - 1) * 0.1;
         }
