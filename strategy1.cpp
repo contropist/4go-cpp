@@ -155,7 +155,7 @@ int position_value(position pos, col_type flag_col)
 //
 float calculate_board(board & b, country_type now_turn)
 {
-    float sum = 1000.0, coefficient = 1.0, pos_coefficient = 1.0;
+    float sum = 1000.0, coefficient = 1.0, pos_coefficient = 0.0;
     col_type flag_col = 0;
 
     loop(i)
@@ -192,13 +192,14 @@ float calculate_board(board & b, country_type now_turn)
                 flag_col = 0;
 
             if (flag_col != 0)
-                pos_coefficient = 1.0 + (position_value(pos, flag_col) - 1) * 0.1;
+                pos_coefficient = 1/10 * position_score(chess.rank) * position_value(pos, flag_col);
             else
-                pos_coefficient = 1.0;
+                pos_coefficient = 0.0;
         }
 
         sum += (score(chess.rank) + ratio * under_attack(b, chess))
-                * coefficient * pos_coefficient;
+                * coefficient
+                + pos_coefficient; // * pos_coefficient;
     }
 
     return sum;

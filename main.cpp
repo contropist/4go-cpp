@@ -117,10 +117,10 @@ void board::init_board()
         occupy(position(up, 5, 0), 33, up, normal);
         occupy(position(up, 5, 2), 33, up, normal);
 
-        occupy(position(up, 4, 0), 33, up, normal);
+//        occupy(position(up, 4, 0), 33, up, normal);
 
         occupy(position(up, 4, 1), 100, up, normal);
-        occupy(position(up, 3, 1), 40, up, normal);
+        occupy(position(up, 3, 1), 38, up, normal);
         occupy(position(down, 1, 1), 33, up, normal);
 
         occupy(position(down, 5, 0), 100, down, normal);
