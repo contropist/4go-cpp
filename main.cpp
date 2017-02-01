@@ -6,9 +6,7 @@
 #include "drawchess.h"
 #include "utils.h"
 #include "route.h"
-
-#include "strategy1.h"
-#include "strategy2.h"
+#include "strategies.h"
 
 #include <QApplication>
 #include <QPainter>
