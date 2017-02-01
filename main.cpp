@@ -23,10 +23,10 @@ QString player_name(player_type p)
     switch(p)
     {
         case human: return "人类";
-        case strategy0: return "ST0";
-        case strategy1: return "ST1";
-        case strategy2: return "ST2";
-        default: return "未知";
+        case st0:   return "ST0";
+        case st1:   return "ST1";
+        case st2:   return "ST2";
+        default:    return "未知";
     }
 }
 
@@ -37,7 +37,7 @@ player_type player(country_type country)
         case down:  return human; break;
         case up:
         case right:
-        case left:  return strategy1;
+        case left:  return st1;
         default: throw("problem encountered in player()");
     }
 }
@@ -207,8 +207,8 @@ move_type computer_run(board & b, country_type country, player_type pl)
 {
     switch(pl)
     {
-        case strategy1: return st1::run_strategy(b, country);
-        case strategy2: return st2::run_strategy(b, country);
+        case st1: return strategy1::run_strategy(b, country);
+        case st2: return strategy2::run_strategy(b, country);
         default: throw("Wrong strategy name!");
     }
 }

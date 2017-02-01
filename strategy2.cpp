@@ -7,7 +7,7 @@
 #include "route.h"
 //
 
-namespace st2 {
+namespace strategy2 {
 
 const float ratio = 0.35;
 

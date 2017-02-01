@@ -4,7 +4,7 @@
 #include "def.h"
 #include "object.h"
 
-namespace st2 {
+namespace strategy2 {
 //
 move_type run_strategy(board & b, country_type belong_to);
 //

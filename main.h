@@ -11,9 +11,9 @@
 //
 typedef enum {
     human,
-    strategy0,
-    strategy1,
-    strategy2
+    st0,
+    st1,
+    st2
 
 } player_type;
 
