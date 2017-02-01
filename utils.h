@@ -1,8 +1,8 @@
-#ifndef UTILS2_H
-#define UTILS2_H
+#ifndef UTILS_H
+#define UTILS_H
 
 //
 int search_xy(int mouse_x, int mouse_y);
 //
 
-#endif // UTILS2_H
+#endif // UTILS_H

@@ -1,11 +1,13 @@
-#ifndef STRATEGY1_CPP
-#define STRATEGY1_CPP
+#ifndef STRATEGY2_CPP
+#define STRATEGY2_CPP
 
 //
 #include "def.h"
-#include "strategy1.h"
+#include "strategy2.h"
 #include "route.h"
 //
+
+namespace st2 {
 
 const float ratio = 0.35;
 
@@ -207,7 +209,7 @@ float calculate_board(board & b, country_type now_turn)
 
 //
 //
-move_type run_strategy1(board & b, country_type belong_to)
+move_type run_strategy(board & b, country_type belong_to)
 {
     pos_list whole_list = b.find_belong_to(belong_to);
     move_type one_move;
@@ -260,4 +262,7 @@ move_type run_strategy1(board & b, country_type belong_to)
 
 }
 
-#endif // STRATEGY1_CPP
+} // namespace strategy2
+//
+
+#endif // STRATEGY2_CPP

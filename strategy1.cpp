@@ -7,6 +7,8 @@
 #include "route.h"
 //
 
+namespace st1 {
+
 const float ratio = 0.35;
 
 //
@@ -220,7 +222,7 @@ int position_value(position pos, col_type flag_col)
 
 //
 //
-move_type run_strategy1(board & b, country_type belong_to)
+move_type run_strategy(board & b, country_type belong_to)
 {
     pos_list whole_list = b.find_belong_to(belong_to);
     move_type one_move;
@@ -276,5 +278,8 @@ move_type run_strategy1(board & b, country_type belong_to)
     return one_move;
 
 }
+
+} // namespace strategy1
+//
 
 #endif // STRATEGY1_CPP

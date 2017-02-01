@@ -1,5 +1,5 @@
-#ifndef UTILS_CPP
-#define UTILS_CPP
+#ifndef DRAWCHESS_CPP
+#define DRAWCHESS_CPP
 
 #include "drawchess.h"
 #include "def.h"
@@ -88,4 +88,4 @@ void draw_extra(QPainter * paint, country_type belong_to, QString text, state_ty
 
 //
 
-#endif // UTILS_CPP
+#endif // DRAWCHESS_CPP

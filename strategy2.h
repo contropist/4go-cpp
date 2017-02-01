@@ -1,14 +1,14 @@
-#ifndef STRATEGY1_H
-#define STRATEGY1_H
+#ifndef STRATEGY2_H
+#define STRATEGY2_H
 
 #include "def.h"
 #include "object.h"
 
-namespace st1 {
+namespace st2 {
 //
 move_type run_strategy(board & b, country_type belong_to);
 //
 }
 
 
-#endif // STRATEGY1_H
+#endif // STRATEGY2_H

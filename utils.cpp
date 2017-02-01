@@ -1,5 +1,5 @@
-#ifndef UTILS2_CPP
-#define UTILS2_CPP
+#ifndef UTILS_CPP
+#define UTILS_CPP
 
 #include "utils.h"
 #include "parameter.h"
@@ -28,4 +28,4 @@ int search_xy(int mouse_x, int mouse_y)
     return NOPOSITION;
 }
 
-#endif // UTILS2_CPP
+#endif // UTILS_CPP

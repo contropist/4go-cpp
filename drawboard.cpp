@@ -1,5 +1,5 @@
-#ifndef DRAW_BOARD_CPP
-#define DRAW_BOARD_CPP
+#ifndef DRAWBOARD_CPP
+#define DRAWBOARD_CPP
 
 #include "parameter.h"
 #include "def.h"
@@ -146,4 +146,4 @@ void draw_board(QPainter * paint)
 
 }
 
-#endif // DRAW_BOARD_CPP
+#endif // DRAWBOARD_CPP
